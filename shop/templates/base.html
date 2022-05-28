@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'bs/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bs/css/css.css' %}" rel="stylesheet">
+    <script src="{% static 'bs/js/bootstrap.bundle.min.js' %}"></script>
+    {% block extrahead %}{% endblock %}
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+</head>
+{% block script %}
+{% endblock %}
+<body>
+    <header class="header container">
+        <nav> <!-- 홈탑메뉴바 -->
+            <ul>
+                <li class="logo"><a href="#">LOGO</a></li>
+                <li><a href="#">의류</a></li>
+                <li><a href="#">가방</a></li>
+                <li><a href="#">악세서리</a></li>
+                <li><a href="#">신발</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        {% block contents %}
+        {% endblock %}
+    </div>
+    {% block footer %}
+    <footer>
+    </footer>
+    {% endblock %}
+</body>
+</html>
