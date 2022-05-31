@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contents %}
+<table class="user_notice">
+    <tbody>
+        <tr>
+            <td>김회원님</td>
+            <td>
+                <div>
+                    <p>주문내역</p>
+                    <p>1건</p>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <p>사용가능쿠폰</p>
+                    <p>2장</p>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <h2>주문배송조회</h2>
+    <table class="table">
+        <thead>
+            <tr>
+              <th>주문번호</th>
+              <th>주문일자</th>
+              <th>상품정보</th>
+              <th>수량</th>
+              <th>결제금액</th>
+              <th>진행상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>5</td>
+                <td>2022.05.24</td>
+                <td>
+                    <div>
+                        <div style="width: 56px; height: 56px; border: 1px solid black;"></div>
+                        <p>상품명</p>
+                        <p>24,100원</p>
+                    </div>
+                </td>
+                <td>1</td>
+                <td>24,100원</td>
+                <td>결제완료</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h2>취소/교환/반품 내역</h2>
+    <table class="table">
+        <thead>
+            <tr>
+              <th>주문번호</th>
+              <th>주문내역</th>
+              <th>접수날짜</th>
+              <th>처리구분</th>
+              <th>환불계좌</th>
+              <th>진행상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>3</td>
+                <td>
+                    <div>
+                        <div style="width: 56px; height: 56px; border: 1px solid black;"></div>
+                        <p>상품명</p>
+                        <p>24,100원</p>
+                    </div>
+                </td>
+                <td>2022.05.24</td>
+                <td>취소</td>
+                <td>
+                    <div>
+                        <p>농협 3330000000</p>
+                        <p>김회원</p>
+                    </div>
+                </td>
+                <td>취소완료</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h2>사용가능쿠폰</h2>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>전품목 10% 할인쿠폰</td>
+                <td>2022.05.01 ~ 2022.05.31</td>
+            </tr>
+            <tr>
+                <td>전품목 10% 할인쿠폰</td>
+                <td>2022.05.01 ~ 2022.05.31</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock%}

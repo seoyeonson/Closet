@@ -1,14 +1,96 @@
+/* 공통 */
+a{
+    text-decoration: none;
+    color: black;
+}
+
 a:hover{
     cursor: pointer;
 }
 
+h1{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 37px;
+}
+
+h2{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+table{
+    text-align: center;
+}
+
+#wrap{
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.fs-20{
+    font-size: 20px;
+}
+
+.fs-18{
+    font-size: 18px;
+}
+
+.fs-16{
+    font-size: 16px;
+}
+
+.sm-bt-black{
+    width: 53px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 5px 0px;
+}
+
+.sm-bt-white{
+    width: 53px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 5px 0px;
+}
+
+.lg-bt-black{
+    width: 464px;
+    background-color: black;
+    color: white;
+    border-radius: 30px;
+    font-size: 18px;
+    padding: 15px 0px;
+}
+
+.lg-bt-white{
+    width: 464px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 30px;
+    font-size: 18px;
+    padding: 15px 0px;
+}
+
+/* base */
 header{
     width: 100%;
     height: 69px;
+    margin-bottom: 37px;
+    position: fixed;
+    background-color: white;
+}
+
+header nav{
+    width: 80%;
+    margin: 0 auto;
 }
 
 header ul{
-    width: 100%;
     padding: 0;
 }
 
@@ -16,4 +98,45 @@ header li {
     list-style: none;
     float: left;
     padding: 10px 20px;
+}
+
+.logo{
+    font-size: 30px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.menu_left{
+    float: left;
+}
+
+.menu_right{
+    float: right;
+}
+
+/* main */
+.product{
+    margin-right: 20px;
+    margin-bottom: 26px;
+}
+
+.prod_image{
+    margin-bottom: 15px;
+}
+
+.prod_name{
+    margin-bottom: 5px;
+}
+
+.prod_sale{
+    color: #FF4C24;
+}
+
+/* mypage */
+.user_notice{
+    width: 100%;
+    height: 163px;
+    background-color: #1F1F1F;
+    color: white;
+    margin-bottom: 50px;
 }
