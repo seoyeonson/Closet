@@ -26,10 +26,10 @@
     <table class="table">
         <thead>
             <tr>
-              <th>주문번호</th>
-              <th>주문일자</th>
+              <th style="width: 10%;">주문번호</th>
+              <th style="width: 20%;">주문일자</th>
               <th>상품정보</th>
-              <th>수량</th>
+              <th style="width: 10%;">수량</th>
               <th>결제금액</th>
               <th>진행상태</th>
             </tr>
@@ -39,15 +39,14 @@
                 <td>5</td>
                 <td>2022.05.24</td>
                 <td>
-                    <div>
+                    <div class="order_prod d-flex">
                         <div style="width: 56px; height: 56px; border: 1px solid black;"></div>
-                        <p>상품명</p>
-                        <p>24,100원</p>
+                        <p>상품명<br>24,100원</p>
                     </div>
                 </td>
                 <td>1</td>
                 <td>24,100원</td>
-                <td>결제완료</td>
+                <td class="state">결제완료</td>
             </tr>
         </tbody>
     </table>
@@ -57,7 +56,7 @@
     <table class="table">
         <thead>
             <tr>
-              <th>주문번호</th>
+              <th style="width: 10%;">주문번호</th>
               <th>주문내역</th>
               <th>접수날짜</th>
               <th>처리구분</th>
@@ -69,10 +68,9 @@
             <tr>
                 <td>3</td>
                 <td>
-                    <div>
+                    <div class="order_prod d-flex">
                         <div style="width: 56px; height: 56px; border: 1px solid black;"></div>
-                        <p>상품명</p>
-                        <p>24,100원</p>
+                        <p>상품명<br>24,100원</p>
                     </div>
                 </td>
                 <td>2022.05.24</td>
@@ -83,7 +81,7 @@
                         <p>김회원</p>
                     </div>
                 </td>
-                <td>취소완료</td>
+                <td class="state">취소완료</td>
             </tr>
         </tbody>
     </table>

@@ -2,4 +2,40 @@
 {% load static %}
 
 {% block contents %}
+<div class="d-flex flex-wrap">
+    <div style="width: 564px; height:564px; background-color: #D9D9D9;"></div>
+    <div class="product_detail">
+        <div>
+            <h1 class="fs-20">OORIGINAL BLACK - 조리 블랙</h1>
+            {% for i in "x"|rjust:"5" %}
+                <i class="fas fa-star"></i>
+            {% endfor %}
+        </div>
+        <div>
+            <div style="float:left;">
+                <p>24,000원</p>
+                <p class="fs-22"><span class="prod_sale">10%</span> 21,600원</p>
+            </div>
+            <button class="sm-bt-black" style="float:right;">쿠폰받기</button>
+        </div>
+        <div style="float: left;">
+            <p class="side_p">배송비 2,500원<br>
+                - 100000원 이상 구매시 무료배송<br>
+                - 제주도를 포함한 도서/산간지역은 추가배송비 3,000원
+            </p>
+            <div class="product_select">
+                <select>
+                    <option>-- 사이즈 선택 --</option>
+                </select>
+                <select>
+                    <option>-- 색상 선택 --</option>
+                </select>
+            </div>
+        </div>
+        <div class="cart_bts">
+            <button class="lg-bt-black">바로 구매하기</button>
+            <button class="lg-bt-white">장바구니 담기</button>
+        </div>
+    </div>
+</div>
 {% endblock%}

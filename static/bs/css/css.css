@@ -1,4 +1,8 @@
 /* 공통 */
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
 a{
     text-decoration: none;
     color: black;
@@ -23,9 +27,18 @@ table{
     text-align: center;
 }
 
+table td{
+    padding: 20px 0 !important;
+}
+
 #wrap{
     padding-top: 120px;
     padding-bottom: 120px;
+}
+
+.fs-22{
+    font-size: 22px;
+    font-weight: bold;
 }
 
 .fs-20{
@@ -139,4 +152,80 @@ header li {
     background-color: #1F1F1F;
     color: white;
     margin-bottom: 50px;
+}
+
+.user_notice + div{margin-top: 80px;}
+.user_notice + div + div{margin-top: 80px;}
+.user_notice + div + div + div{margin-top: 80px;}
+
+.user_notice td{
+    width: 33.3%;
+}
+
+.state{font-weight: bold;}
+
+/* cart */
+.all_del{
+    margin-right: 20px;
+}
+
+.cart_top{
+    margin-bottom: 20px;
+}
+
+.order_prod{
+    text-align: left;
+}
+
+.order_prod input{
+    margin: 0 20px;
+}
+
+.order_prod > div {
+    display: flex;
+}
+
+.order_prod p{
+    margin-left: 20px;
+}
+
+.cart_bts{
+    margin-top: 40px;
+}
+
+.cart_bts > p {
+    text-align: center;
+}
+
+.cart_bts > button {
+    margin-bottom: 10px;
+}
+
+/* .plus-minus-btn{
+    width: 130px;
+    height: 40px;
+    border: 1px solid #D8D8D8; 
+}
+
+.plus-minus-btn input{
+    width: 30px;
+    border: none;
+    background-color: white;
+} */
+
+/* product */
+.product_detail{
+    width: 40%;
+    padding: 10px 30px;
+}
+
+.product_select select{
+    width: 464px;
+    border: 1px solid #d5d5d5;
+    margin-bottom: 10px;
+    color: #B6B6B6;
+}
+
+.side_p{
+    color: #B6B6B6;
 }
