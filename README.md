@@ -10,17 +10,17 @@
 
 # DB에 더미데이터 저장하는법
 
-1. pillow 모듈 설치 (ImageField 사용을 위해 필요)
-   cmd 관리자 권한으로 실행 > pip intall Pillow
-2. migration, migrate
-   터미널로 sqlite3 실행하여 테이블 생성된 것 확인
-3. 터미널로 sqlite3 에 연결, 외래키 활성화 하기
-   sqlite3 창에 PRAGMA foreign_keys; >> 결과값으로 0 또는 1 반환 (0:비활성화, 1:활성화)
-   PRAGMA foreign_keys = 1; 실행 후 직전 코드 다시 실행하여 활성화 되었는지 확인  
+1. pillow 모듈 설치 (ImageField 사용을 위해 필요)  
+   cmd 관리자 권한으로 실행 > pip intall Pillow  
+2. migration, migrate  
+   터미널로 sqlite3 실행하여 테이블 생성된 것 확인  
+3. 터미널로 sqlite3 에 연결, 외래키 활성화 하기  
+   sqlite3 창에 PRAGMA foreign_keys; >> 결과값으로 0 또는 1 반환 (0:비활성화, 1:활성화)  
+   PRAGMA foreign_keys = 1; 실행 후 직전 코드 다시 실행하여 활성화 되었는지 확인    
    참조 : https://thinking-jmini.tistory.com/12
-5. 구글드라이브 > dummydata 폴더
-   DB_상품&카테고리.ipynb 파일 내 코드 순차적으로 모두 실행
-   ** products.xlsx 파일과, 우리프로젝트의 db.sqlite3 파일을 사용합니다. 본인 컴퓨터의 파일 경로로 꼭 수정해주세요. **
-6. 구글드라이브 > DML-category_code수정.ipynb 파일 내 코드 실행
-   ** 마찬가지로 파일경로를 수정하여 실행해주세요. **
+5. 구글드라이브 > dummydata 폴더  
+   DB_상품&카테고리.ipynb 파일 내 코드 순차적으로 모두 실행  
+   ** products.xlsx 파일과, 우리프로젝트의 db.sqlite3 파일을 사용합니다. 본인 컴퓨터의 파일 경로로 꼭 수정해주세요. **  
+6. 구글드라이브 > DML-category_code수정.ipynb 파일 내 코드 실행  
+   ** 마찬가지로 파일경로를 수정하여 실행해주세요. **  
    
