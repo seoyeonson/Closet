@@ -3,6 +3,8 @@ from django.shortcuts import render
 
 from shop.models import Product
 
+from django.shortcuts import render, HttpResponse
+from shop.models import Product, Product_category, User, User_order, User_order_detail, Cart, Cuppon, Customer_inquiry, Grade
 def main(request):
     products = Product.objects.filter(category_code_id=3)
 
@@ -19,3 +21,10 @@ def mypage(request):
 
 def cart(request):
     return render(request, 'cart.html')
+
+def test_images(requests, pk):
+    product = Product.objects.filter(pk=pk)
+    print(type(product))
+    return HttpResponse(f'''
+        <h2>Images<h2>
+        ''')
