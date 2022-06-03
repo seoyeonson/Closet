@@ -5,8 +5,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="{% static 'bs/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -36,6 +41,34 @@
         </nav>
     </header>
     <div id="wrap" class="container">
+        <a>
+            <div id="chatbot">
+                <i class="far fa-comment-dots"></i>
+            </div>
+        </a>
+        <div id="chatbot_chat">
+            <div class="chat_header">
+                <!-- <i id="chevron_left" class="material-icons chevron_left">chevron_left</i> -->
+                <i id="close" class="material-icons close">close</i>
+                <hr>
+            </div>
+            <div id="chatbox"
+             style="height:422px;margin-top:57px;padding:10px;overflow-y:scroll;overflow-x:hidden;max-height:80vh;">
+            </div>
+            <div class="chabot_footer">
+                <hr>
+                <table width="100%">
+                    <tr>
+                        <td width="90%">
+                            <input id="chattext">
+                        </td>
+                        <td width="10%">
+                            <button id="sendbtn"><i class="material-icons send">send</i></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         {% block contents %}
         {% endblock %}
     </div>

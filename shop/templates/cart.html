@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extrahead %}
+<script src="{% static 'bs/js/cart.js' %}"></script>
+{% endblock %}
+
 {% block contents %}
 <h1>장바구니</h1>
 <div class="d-flex justify-content-between cart_top">
-  <label><input type="checkbox"> 전체선택</label>
+  <label><input type="checkbox" id="all_agree"> 전체선택</label>
   <button class="sm-bt-white all_del">삭제</button>
 </div>
 <table class="table">
@@ -22,11 +26,13 @@
       <tr>
         <td>
           <div class="order_prod d-flex">
-            <input type="checkbox"/>
+            <input type="checkbox" class="choice"/>
             <div>
-              <div style="width: 104px; height: 104px; border: 1px solid black; margin: 0; margin-right: 20px;"></div>
+              <div style="width: 104px; height: 104px; background-color: #D9D9D9; margin: 0; margin-right: 20px;"></div>
               <!-- +, - button -->
-              <p>상품명</p> 
+              <p>상품명<br>
+                <span class="option">옵션</span>
+              </p> 
               <!-- <div class="plus-minus-btn d-flex">
                 <input type='button' onclick='count("minus")' value='-'/>
                 <div id='result'>0</div>

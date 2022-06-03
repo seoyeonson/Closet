@@ -1,7 +1,15 @@
+from unicodedata import category
 from django.shortcuts import render
 
+from shop.models import Product
+
 def main(request):
-    return render(request, 'index.html')
+    products = Product.objects.filter(category_code_id=3)
+
+    context = {
+        products : products,
+    }
+    return render(request, 'index.html', context)
 
 def product(request, pk):
     return render(request, 'product.html')
