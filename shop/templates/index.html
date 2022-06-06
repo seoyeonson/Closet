@@ -2,57 +2,23 @@
 {% load static %}
 
 {% block contents %}
-<h1>의류</h1>
+<h1>{{ category.category_name }}</h1>
 <div class="d-flex flex-wrap">
-    {% for i in "x"|rjust:"20" %}
-    <div style="width: 20%;">
-        <a>
+    {% for product in products %}
+    <div style="width: 240px;">
+        <a href="{% url 'product' product.product_name %}">
             <div class="product">
                 <!-- 이미지로 변경 필요 -->
                 <div class="prod_image" style="width: 100%; height: 210px; background-color: #D9D9D9;"></div>
                 <div>
-                    <p class="prod_name fs-16">상품명</p>
-                    <h2 class="prod_price fs-18"><span class="prod_sale">10% </span>21,600원</h2>
+                    <p class="prod_name fs-16">{{ product.product_name }}</p>
+                    <h2 class="prod_price fs-18">{{ product.product_price }}</h2>
+                    <!-- <h2 class="prod_price fs-18"><span class="prod_sale">10% </span>{{ product.product_price }}</h2> -->
                 </div>
             </div>
         </a>
     </div>
     {% endfor %}
-    <!-- pagination -->
-    <!-- <div class="container mt-1">
-        <ul class="pagination justify-content-center">
-            {# << 표시 여부 #} 
-            {% if reviews.number > 1 %}       
-            <li class="page-item"><a class="page-link" href="?page=1" title="처음"><i class='fas fa-angle-double-left'></i></a></li>
-            {% endif %}
-
-            {# < 표시 여부 #}
-            {% if reviews.number > reviews.paginator.num_pages %}
-            <li class="page-item"><a class="page-link" href="?page={{ reviews.previous_page_number }}" title="이전"><i class='fas fa-angle-left'></i></a></li>
-            {% endif %}
-
-            {# 페이징 안의 '숫자' 표시 #}
-            {% if reviews.paginator.num_pages > 1 %}
-                {% for p in page_range %}
-                    {% if reviews.number != p %}
-                    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
-                    {% else %}
-                    <li class="page-item active"><a class="page-link" href="#" title="현재페이지">{{ p }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-
-            {# > 표시 #}
-            {% if reviews.paginator.num_pages > end_page %}
-            <li class="page-item"><a class="page-link" href="?page={{ reviews.next_page_number }}" title="다음"><i class='fas fa-angle-right'></i></a></li>
-            {% endif %}
-        
-            {# >> 표시 #}
-            {% if reviews.number < reviews.paginator.num_pages %}
-            <li class="page-item"><a class="page-link" href="?page={{ reviews.paginator.num_pages }}" title="마지막"><i class='fas fa-angle-double-right'></i></a></li>
-            {% endif %}
-        </ul>
-    </div> -->
 </div>
 
 {% endblock %}

@@ -31,10 +31,11 @@
         <nav> <!-- 홈탑메뉴바 -->
             <a href="{% url 'main' %}" class="menu_left logo">LOGO</a>
             <ul>
-                <li class="menu_left"><a href="#">의류</a></li>
-                <li class="menu_left"><a href="#">가방</a></li>
-                <li class="menu_left"><a href="#">악세서리</a></li>
-                <li class="menu_left"><a href="#">신발</a></li>
+                <li class="menu_left"><a href="{% url 'main' %}">상의</a></li>
+                <li class="menu_left"><a href="{% url 'list' 1 %}">바지</a></li>
+                <li class="menu_left"><a href="{% url 'list' 7 %}">가방</a></li>
+                <li class="menu_left"><a href="{% url 'list' 10 %}">악세서리</a></li>
+                <li class="menu_left"><a href="{% url 'list' 0 %}">신발</a></li>
                 <li class="menu_right"><a href="{% url 'mypage' %}">마이페이지</a></li>
                 <li class="menu_right"><a href="{% url 'cart' %}">장바구니</a></li>
             </ul>

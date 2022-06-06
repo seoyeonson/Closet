@@ -308,8 +308,12 @@ header li {
 } */
 
 /* product */
-.prod_name{
+.name{
     font-weight: bold;
+}
+
+.star{
+    font-size: 18px;
 }
 
 .product_detail{
