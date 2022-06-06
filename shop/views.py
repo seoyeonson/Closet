@@ -66,9 +66,12 @@ def mypage(request):
 def cart(request):
     return render(request, 'cart.html')
 
-def test_images(requests, pk):
-    product = Product.objects.filter(pk=pk)
-    print(type(product))
-    return HttpResponse(f'''
-        <h2>Images<h2>
-        ''')
+def test_images(request, id):
+    product = Product.objects.get(pk=id)
+    # count = product.count()
+    # user = User.objects.filter(u_id=id)
+    context = {
+        'product': product,
+    }
+    return render(request, 'test_images.html', context)
+

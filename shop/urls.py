@@ -9,7 +9,7 @@ urlpatterns = [
     path('product/<str:name>/', views.product, name='product'),
     path('mypage/', views.mypage, name='mypage'),
     path('cart/', views.cart, name='cart'),
-    path('test_images/<int:pk>/', views.test_images),
+    path('test_images/<int:id>/', views.test_images),
 ]
 
 urlpatterns += static(
