@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 from shop.models import Product, Product_category, User, User_order, User_order_detail, Cart, Cuppon, Customer_inquiry, Grade
 def main(request):
     return render(request, 'index.html')
@@ -12,9 +12,12 @@ def mypage(request):
 def cart(request):
     return render(request, 'cart.html')
 
-def test_images(requests, pk):
-    product = Product.objects.filter(pk=pk)
-    print(type(product))
-    return HttpResponse(f'''
-        <h2>Images<h2>
-        ''')
+def test_images(request, id):
+    product = Product.objects.get(pk=id)
+    # count = product.count()
+    # user = User.objects.filter(u_id=id)
+    context = {
+        'product': product,
+    }
+    return render(request, 'test_images.html', context)
+
