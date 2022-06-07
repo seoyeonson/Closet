@@ -84,7 +84,15 @@ def mypage(request):
     return render(request, 'mypage.html')
 
 def cart(request):
-    return render(request, 'cart.html')
+    carts = Cart.objects.all()
+    all_prods = len(carts)
+    # carts.product_num.
+
+    context = {
+        'carts' : carts,
+        'all_prods' : all_prods,
+    }
+    return render(request, 'cart.html', context)
 
 def test_images(request, id):
     product = Product.objects.get(pk=id)
