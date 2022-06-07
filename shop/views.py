@@ -36,6 +36,9 @@ def product(request, name):
 
     colors_cnt = 0
     size_cnt = 0
+    isColor = True
+    isSize = True
+
     for products in product_colors:
         if products.get('product_color') != '':
             colors_cnt += 1
@@ -45,10 +48,10 @@ def product(request, name):
             size_cnt += 1
 
     if colors_cnt == 0:
-        product_colors = {}
+        isColor = False
 
     if size_cnt == 0:
-        product_sizes = {}
+        isSize = False
     
     print(product_colors)
     print(product_sizes)
@@ -56,6 +59,8 @@ def product(request, name):
     if request.method=="GET":
         context = {
             'product' : product[0],
+            'isColor' : isColor,
+            'isSize' : isSize,
             'product_colors' : product_colors,
             'product_sizes' : product_sizes,
         }
