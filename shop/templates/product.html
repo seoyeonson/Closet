@@ -36,6 +36,7 @@
             <form id="product_buy" action="." method="POST">
                 {% csrf_token %}
                 <div class="product_select">
+                    {% if isSize %}
                     <select id="size">
                         <option>-- 사이즈 선택 --</option>
                         {% for size in product_sizes %}
@@ -44,6 +45,8 @@
                             {% endif %}
                         {% endfor %}
                     </select>
+                    {% endif %}
+                    {% if isColor %}
                     <select id="color">
                         <option>-- 색상 선택 --</option>
                         {% for color in product_colors %}
@@ -52,6 +55,7 @@
                             {% endif %}
                         {% endfor %}
                     </select>
+                    {% endif %}
                 </div>
             </div>
             </form>
