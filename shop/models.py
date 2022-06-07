@@ -24,7 +24,7 @@ class User(models.Model):
         verbose_name_plural = '회원(들)'
     
     def __str__(self):
-        return f'{self.id}:{self.username}|{self.name}|{self.nickname}|{self.email}|{self.address}|{self.mobile}' # 주문,배송에 자주 쓰일것 같은 필드만 표기하였습니다
+        return f'{self.u_id}:{self.username}|{self.name}|{self.nickname}|{self.email}|{self.address}|{self.mobile}' # 주문,배송에 자주 쓰일것 같은 필드만 표기하였습니다
 
 class Cuppon(models.Model):
     discount_rate = models.FloatField() # 0.2, 0.3 같이 할인율은 소수로 표기하는게 좋을것 같아 float field로 작성했습니다.
