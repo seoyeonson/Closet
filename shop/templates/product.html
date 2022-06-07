@@ -7,7 +7,9 @@
 
 {% block contents %}
 <div class="d-flex flex-wrap">
-    <div style="width: 564px; height:564px; background-color: #D9D9D9;"></div>
+    <div class="image_box">
+        <img src='/media/{{product.product_image}}' class="image_detail">
+    </div>
     <div class="product_detail">
         <div>
             <p class="fs-20 name">{{ product.product_name }}</p>
@@ -23,8 +25,7 @@
         </div>
         <div>
             <div style="float:left;">
-                <p>{{ product.product_price }}<br>
-                    <span class="fs-22"><span class="prod_sale">10%</span> 21,600원</span>
+                <p class="fs-22">{{ product.product_price }}원</span>
                 </p>
             </div>
         </div>

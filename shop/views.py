@@ -7,11 +7,11 @@ from django.shortcuts import render, HttpResponse
 from shop.models import Product, Product_category, User, User_order, User_order_detail, Cart, Cuppon, Customer_inquiry, Grade
 def main(request):
     main_cg = 3
-    products = Product.objects.filter(category_code_id=main_cg).values('product_name', 'product_price').distinct()
+    products = Product.objects.filter(category_code_id=main_cg).values('product_name', 'product_price', 'product_image').distinct()
     category = Product_category.objects.filter(category_code=main_cg).values('category_name')
     
-    # for product in products:
-    #     print(product)
+    for product in products:
+        print(product)
 
     context = {
         'category': category[0],
@@ -20,7 +20,7 @@ def main(request):
     return render(request, 'index.html', context)
 
 def list(request, cg):
-    products = Product.objects.filter(category_code_id=cg).values('product_name', 'product_price').distinct()
+    products = Product.objects.filter(category_code_id=cg).values('product_name', 'product_price', 'product_image').distinct()
     category = Product_category.objects.filter(category_code=cg).values('category_name')
 
     context = {
@@ -30,13 +30,28 @@ def list(request, cg):
     return render(request, 'index.html', context)
 
 def product(request, name):
-    product = Product.objects.filter(product_name=name).values('product_name', 'product_price', 'product_rate', 'product_num').distinct()
+    product = Product.objects.filter(product_name=name).values('product_name', 'product_price', 'product_rate', 'product_num', 'product_image').distinct()
     product_colors = Product.objects.filter(product_name=name).values('product_color')
     product_sizes = Product.objects.filter(product_name=name).values('product_size')
 
-    # print(product[0].get('product_name'))
+    colors_cnt = 0
+    size_cnt = 0
     for products in product_colors:
-        print(products)
+        if products.get('product_color') != '':
+            colors_cnt += 1
+
+    for products in product_sizes:
+        if products.get('product_size') != '':
+            size_cnt += 1
+
+    if colors_cnt == 0:
+        product_colors = {}
+
+    if size_cnt == 0:
+        product_sizes = {}
+    
+    print(product_colors)
+    print(product_sizes)
 
     if request.method=="GET":
         context = {
