@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block contents %}
 <h1>{{ category.category_name }}</h1>
@@ -14,7 +15,7 @@
                 </div>
                 <div>
                     <p class="prod_name fs-16">{{ product.product_name }}</p>
-                    <h2 class="prod_price fs-18">{{ product.product_price }}원</h2>
+                    <h2 class="prod_price fs-18">{{ product.product_price|intcomma }}원</h2>
                     <!-- <h2 class="prod_price fs-18"><span class="prod_sale">10% </span>{{ product.product_price }}</h2> -->
                 </div>
             </div>

@@ -45,14 +45,14 @@ class Cuppon(models.Model):
 
 class User_order(models.Model):
     ORDERSTATUS = (
-        ('1', '주문접수'),
-        ('2', '배송준비'),
-        ('3', '출고완료'),
-        ('4', '배송중'),
-        ('5', '배송완료'),
-        ('6', '주문취소'),
-        ('7', '교환/환불대기'),
-        ('8', '교환/환불완료'),
+        (1, '주문접수'),
+        (2, '배송준비'),
+        (3, '출고완료'),
+        (4, '배송중'),
+        (5, '배송완료'),
+        (6, '주문취소'),
+        (7, '교환/환불대기'),
+        (8, '교환/환불완료'),
     )
     order_num = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

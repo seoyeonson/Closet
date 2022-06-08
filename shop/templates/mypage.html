@@ -53,7 +53,7 @@
                 </td>
                 <td>{{ order.product_count }}</td>
                 <td>{{ order.product_price|intcomma }}원</td>
-                <td class="state">{{ order.order_num.orderstatus }}</td>
+                <td class="state">{{ order.order_num.get_orderstatus_display }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -96,6 +96,11 @@
 <div>
     <h2>사용가능쿠폰</h2>
     <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+            </tr>
+        </thead>
         <tbody>
             {% for cuppon in cuppons %}
             <tr>

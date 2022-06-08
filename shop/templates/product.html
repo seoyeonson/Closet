@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block extrahead %}
 <script src="{% static 'bs/js/product.js' %}"></script>
@@ -25,14 +26,14 @@
         </div>
         <div>
             <div style="float:left;">
-                <p class="fs-22">{{ product.product_price }}원</span>
+                <p class="fs-22">{{ product.product_price|intcomma }}원</span>
                 </p>
             </div>
         </div>
         <div style="float: left;">
-            <p class="side_p">배송비 2,500원<br>
+            <!-- <p class="side_p">배송비 2,500원<br>
                 - 제주도를 포함한 도서/산간지역은 추가배송비 3,000원
-            </p>
+            </p> -->
             <form id="product_buy" action="." method="POST">
                 {% csrf_token %}
                 <div class="product_select">
