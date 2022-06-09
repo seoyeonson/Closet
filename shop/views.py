@@ -10,8 +10,8 @@ def main(request):
     products = Product.objects.filter(category_code_id=main_cg).values('product_name', 'product_price', 'product_image').distinct()
     category = Product_category.objects.filter(category_code=main_cg).values('category_name')
     
-    for product in products:
-        print(product)
+    # for product in products:
+    #     print(product)
 
     context = {
         'category': category[0],
@@ -52,9 +52,6 @@ def product(request, name):
 
     if size_cnt == 0:
         isSize = False
-    
-    print(product_colors)
-    print(product_sizes)
 
     if request.method=="GET":
         context = {
@@ -68,7 +65,7 @@ def product(request, name):
 
     elif request.method=="POST":
 
-        print(product[0].get('product_num'))
+        # print(product[0].get('product_num'))
 
         # cart = Cart(
         #     product_num = product[0].get('product_num'),
@@ -81,16 +78,37 @@ def product(request, name):
         return redirect(f'/cart/')
 
 def mypage(request):
-    return render(request, 'mypage.html')
+    user = User.objects.get(u_id=1)
+    orders = User_order_detail.objects.all()
+    all_orders = len(orders)
+
+    cuppons = Cuppon.objects.all()
+    all_cuppons = len(cuppons)
+
+    context = {
+        'user': user,
+        'orders': orders,
+        'all_orders': all_orders,
+        'cuppons': cuppons,
+        'all_cuppons': all_cuppons,
+    }
+
+    return render(request, 'mypage.html', context)
 
 def cart(request):
     carts = Cart.objects.all()
     all_prods = len(carts)
+
+    all_price = 0
+    for cart in carts:
+       all_price += cart.product_num.product_price * cart.product_count 
+
     # carts.product_num.
 
     context = {
         'carts' : carts,
         'all_prods' : all_prods,
+        'all_price' : all_price,
     }
     return render(request, 'cart.html', context)
 
