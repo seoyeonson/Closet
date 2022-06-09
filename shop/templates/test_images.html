@@ -8,8 +8,10 @@
 <p></p>
 <!-- <p>{{ product.category_name }}</p> -->
 <p>{{ product.product_name }}</p>
-<p>{{ user }}</p>
+<!-- <p>{{ user. }}</p> -->
 <p>{{ product.product_image }}</p>
+<p>{{ order.get_orderstatus_display }}</p>
+
 <img src='/media/{{product.product_image}}'>
 
 {% endblock%}

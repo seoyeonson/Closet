@@ -96,10 +96,12 @@ def cart(request):
 
 def test_images(request, id):
     product = Product.objects.get(pk=id)
+    order = User_order.objects.get(pk=1)
     # count = product.count()
     # user = User.objects.filter(u_id=id)
     context = {
         'product': product,
+        'order': order,
     }
     return render(request, 'test_images.html', context)
 
