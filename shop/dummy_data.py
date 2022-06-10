@@ -16,11 +16,11 @@ def User_Insert():
             receive_marketing = True if i % 2 == 0 else False )
 
 def Grade_Insert():
-    for i in range(1, 301): # 300명의 전체 유저가, 각각다른 상품(랜덤) 500개에 대해 평점(랜덤)을 매깁니다. 
+    for i in range(55, 303): # 300명의 전체 유저가, 각각다른 상품(랜덤) 500개에 대해 평점(랜덤)을 매깁니다. 
         for j in range(1, 500):
             Grade.objects.create(
                 u_id = User.objects.get(u_id=i),
-                product_num = Product.objects.get(product_num = random.randint(1, 8315)),
+                product_num = Product.objects.get(product_num = random.randint(8316, 16630)),
                 grade = random.randint(0, 5)
             )
 
