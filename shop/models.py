@@ -23,8 +23,8 @@ class User(models.Model):
         verbose_name = '회원'
         verbose_name_plural = '회원(들)'
     
-    def __str__(self):
-        return f'{self.u_id}:{self.username}|{self.name}|{self.nickname}|{self.email}|{self.address}|{self.mobile}' # 주문,배송에 자주 쓰일것 같은 필드만 표기하였습니다
+    # def __str__(self):
+    #     return f'{self.u_id}:{self.username}|{self.name}|{self.nickname}|{self.email}|{self.address}|{self.mobile}' # 주문,배송에 자주 쓰일것 같은 필드만 표기하였습니다
 
 class Cuppon(models.Model):
     discount_rate = models.FloatField() # 0.2, 0.3 같이 할인율은 소수로 표기하는게 좋을것 같아 float field로 작성했습니다.
@@ -40,8 +40,7 @@ class Cuppon(models.Model):
         verbose_name = '쿠폰'
         verbose_name_plural = '쿠폰(들)'
 
-    def __str__(self):
-        return self.discount_rate
+
 
 class User_order(models.Model):
     ORDERSTATUS = (
@@ -68,8 +67,6 @@ class User_order(models.Model):
        verbose_name = '주문'
        verbose_name_plural = '주문(들)'
     
-    def __str__(self):
-        return self.order_num
 
 class Product_category(models.Model):
     category_code = models.AutoField(primary_key=True)
@@ -80,8 +77,6 @@ class Product_category(models.Model):
        verbose_name = '상품카테고리'
        verbose_name_plural = '상품카테고리(들)'
     
-    def __str__(self):
-        return self.category_name
 
 class Product(models.Model):
     product_num = models.AutoField(primary_key=True)
@@ -102,8 +97,6 @@ class Product(models.Model):
        verbose_name = '상품'
        verbose_name_plural = '상품(들)'
 
-    def __str__(self):
-        return self.product_name
 
 class User_order_detail(models.Model):
     product_num = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -116,8 +109,6 @@ class User_order_detail(models.Model):
         verbose_name = '주문상세정보'
         verbose_name_plural = '주문상세정보(들)'
 
-    def __str__(self):
-        return self.order_num
 
 class Grade(models.Model):
     u_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -132,8 +123,6 @@ class Grade(models.Model):
         verbose_name = '상품평점'
         verbose_name_plural = '상품평점(들)'
 
-    def __str__(self):
-        return self.id
     
 class Cart(models.Model):
     product_num = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -158,5 +147,3 @@ class Customer_inquiry(models.Model):
         verbose_name = '문의사항'
         verbose_name_plural = '문의사항(들)'
     
-    def __str__(self):
-        return self.title
