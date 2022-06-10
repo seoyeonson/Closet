@@ -18,23 +18,34 @@ class Recommend_product():
 class Order():
 
     def __init__(self, username):
-        self.user = User.objects.get(username=username)  
-        self.order = User_order.objects.filter(user=self.user).order_by('-order_num')[:1].values()[0]
+        self.user = User.objects.get(username=username)
 
+        try:
+            self.order = User_order.objects.filter(user=self.user).order_by('-order_num')[:1].values()[0]
+        except :
+            self.order = False
 
     # 주문내역 조회
-
     def order_info(self):
-        # try:
         order = self.order
-        order_detail = User_order_detail.objects.get(order_num=order.get('order_num'))
 
-        received_date = f'수령일: {order.get("received_date")}' if order.get('received_date') != None else ''
-        data = f'''주문번호: {order.get('order_num')}\n 주문상품: {order_detail.product_num.product_name}\n주문수량: {order_detail.product_count}\n 주문금액: {order_detail.product_price}\n
-        주문일시: {order.get('order_date')}\n주소: {order.get('adress')}\n수령인: {order.get('receive_name')}\n전화번호: {order.get('receive_phone')}\n
-        주문상태: {User_order.ORDERSTATUS[order.get('orderstatus')-1][1]}\n''' + received_date
-        # except:
-        #     data = '주문정보없음'
+        if not(order):
+            data = '주문정보없음'
+        else:
+            order_detail = User_order_detail.objects.get(order_num=order.get('order_num'))
+
+            received_date = f'수령일: {order.get("received_date")}' if order.get('received_date') != None else ''
+
+            data = f'''주문번호: {order.get('order_num')}\n 
+                        주문상품: {order_detail.product_num.product_name}\n
+                        주문수량: {order_detail.product_count}\n 
+                        주문금액: {order_detail.product_price}\n
+                        주문일시: {order.get('order_date')}\n
+                        주소: {order.get('adress')}\n
+                        수령인: {order.get('receive_name')}\n
+                        전화번호: {order.get('receive_phone')}\n
+                        주문상태: {User_order.ORDERSTATUS[order.get('orderstatus')-1][1]}\n''' + received_date
+
         
         return data
 

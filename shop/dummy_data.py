@@ -2,6 +2,18 @@ from shop.models import Product, Product_category, User, User_order, User_order_
 import datetime
 import random
 
+def test_user():
+    User.objects.create(
+        username = 'user1234',
+        password = 'password',
+        name = '김초록',
+        nickname = 'nickname',
+        email = 'user1234@test.com',
+        sociallogin = 'user1234@test.com',
+        mobile = '010-2222-0123',
+        receive_marketing = True,
+    )
+
 def User_Insert():
     # 유저정보 생성하는 함수입니다. 가상의 유저 300명 생성합니다.
     for i in range(300):
