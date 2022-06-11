@@ -9,7 +9,7 @@ class NerModel:
     def __init__(self, model_name, preprocess):
 
         # BIO 태그 클래스 별 레이블
-        self.index_to_ner ={1: 'O', 2: 'B_CATEGORY', 3: 'B_DT', 4: 'I', 5: 'B_OG', 6: 'B_PS', 7: 'B_LC', 8: 'NNP', 9: 'B_TI', 0: 'PAD'}
+        self.index_to_ner ={1: 'O', 2: 'B_CATEGORY', 3: 'I', 4: 'B_OG',5:'B_PS',6:'B_LC',7:'NNP',8:'B_TI',0:'PAD'}
 
         # 의도 분류 모델 불러오기
         self.model = load_model(model_name)
@@ -22,19 +22,21 @@ class NerModel:
     def predict(self, query):
         # 형태소 분석
         pos = self.p.pos(query)
-
+        print(pos)
         # 문장내 키워드 추출(불용어 제거)
         keywords = self.p.get_keywords(pos, without_tag=True)
         sequences = [self.p.get_wordidx_sequence(keywords)]
-
+        print(keywords)
+        print(sequences)
         # 패딩처리
         max_len = 40
         padded_seqs = preprocessing.sequence.pad_sequences(sequences, padding="post", value=0, maxlen=max_len)
-
+        print(padded_seqs)
         predict = self.model.predict(np.array([padded_seqs[0]]))
         predict_class = tf.math.argmax(predict, axis=-1)
-
+        
         tags = [self.index_to_ner[i] for i in predict_class.numpy()[0]]
+        print(tags)
         return list(zip(keywords, tags))
 
     def predict_tags(self, query):
