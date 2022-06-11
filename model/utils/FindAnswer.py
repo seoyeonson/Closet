@@ -1,4 +1,4 @@
-from shop.data import Recommend_product
+# from shop.data import Recommend_product
 
 class FindAnswer:
     
@@ -131,4 +131,8 @@ class FindAnswer:
                             Theta[i][k] -= alpha * (np.nansum(error[i, :]*X[k, :]) + lambda_*Theta[i][k])
                             X[k][j] -= alpha * (np.nansum(error[:, j]*Theta[:, k]) + lambda_*X[k][j])
 
-        return Theta, X, costs
+        return Theta, X, costs       
+
+    def test_func():
+        recomend = Recommend_product(10000)
+        return recomend.__str__().product_name
