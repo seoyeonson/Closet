@@ -112,13 +112,17 @@ table td{
 #chatbot_chat{
     display: none;
     background-color: white;
-    width: 350px;
-    height: 534px;
+    width : 40%;
+    height: 80%;
     position: fixed;
     bottom: 100px;
     right: 100px;
     border-radius: 30px;
     box-shadow: 0px 0px 34px 10px rgba(0, 0, 0, 0.1);
+}
+
+#chattext{
+    width: 95%;
 }
 
 .chevron_left{
@@ -147,6 +151,7 @@ table td{
 }
 
 .chabot_footer{
+    width: 100%;
     position: absolute;
     bottom: 0;
 }
