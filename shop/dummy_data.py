@@ -2,6 +2,18 @@ from shop.models import Product, Product_category, User, User_order, User_order_
 import datetime
 import random
 
+def test_user():
+    User.objects.create(
+        username = 'user1234',
+        password = 'password',
+        name = '김초록',
+        nickname = 'nickname',
+        email = 'user1234@test.com',
+        sociallogin = 'user1234@test.com',
+        mobile = '010-2222-0123',
+        receive_marketing = True,
+    )
+
 def User_Insert():
     # 유저정보 생성하는 함수입니다. 가상의 유저 300명 생성합니다.
     for i in range(300):
@@ -16,11 +28,11 @@ def User_Insert():
             receive_marketing = True if i % 2 == 0 else False )
 
 def Grade_Insert():
-    for i in range(1, 301): # 300명의 전체 유저가, 각각다른 상품(랜덤) 500개에 대해 평점(랜덤)을 매깁니다. 
+    for i in range(55, 303): # 300명의 전체 유저가, 각각다른 상품(랜덤) 500개에 대해 평점(랜덤)을 매깁니다. 
         for j in range(1, 500):
             Grade.objects.create(
                 u_id = User.objects.get(u_id=i),
-                product_num = Product.objects.get(product_num = random.randint(1, 8315)),
+                product_num = Product.objects.get(product_num = random.randint(8316, 16630)),
                 grade = random.randint(0, 5)
             )
 

@@ -33,7 +33,7 @@ class Cuppon(models.Model):
 
     @property
     def description(self):
-        return f'{self.discount_rate * 100}% 할인 쿠폰'
+        return f'{int(self.discount_rate * 100)}% 할인 쿠폰'
 
     class Meta:
         db_table = 'P2_cuppon'

@@ -1,3 +1,5 @@
+from shop.data import Recommend_product
+
 class FindAnswer:
     
     # Database 인스턴스 객체로 생성
@@ -11,6 +13,8 @@ class FindAnswer:
         sql = self._make_query(intent_name, ner_tags)
         answer = self.db.select_one(sql)
         
+        recomend = Recommend_product(1)
+        answer2 = answer['answer'] + (recomend.__str__().product_name)
         
         # 검색되는 답변이 없었으면 의도명만 이용하여 답변 검색
         # 챗봇이 찾는 정확한 조건의 답변이 없는 경우 차선책으로 동일한 의도를 가지는 답변을 검색
@@ -19,7 +23,7 @@ class FindAnswer:
             sql = self._make_query(intent_name, None)
             answer = self.db.select_one(sql)
             
-        return (answer['answer'], answer['answer_image'])
+        return (answer2, answer['answer_image'])
     
     # ③ 검색 쿼리 생성
     # '의도명' 만 검색할지, 여러종류의 개체명 태그와 함께 검색할지 결정하는 '조건'을 만드는 간단한 함수
