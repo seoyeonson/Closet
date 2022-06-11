@@ -59,7 +59,7 @@ function send_message(){
   $("#chattext").focus();
 
   // API 서버에 요청할 데이터
-  /*
+  
   const jsonData = {
       query: chattext
   }
@@ -84,7 +84,7 @@ function send_message(){
           $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')})  
       }
   });
-  */
+
 
 
 
