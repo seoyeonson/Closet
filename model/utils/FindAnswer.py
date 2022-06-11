@@ -1,4 +1,4 @@
-from shop.data import Recommend_product
+# from shop.data import Recommend_product
 
 class FindAnswer:
     
@@ -63,3 +63,9 @@ class FindAnswer:
         answer = answer.replace('{', '')
         answer = answer.replace('}', '')
         return answer        
+
+def test_func():
+    recomend = Recommend_product(10000)
+    return recomend.__str__().product_name
+
+
