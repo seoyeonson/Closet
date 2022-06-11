@@ -23,7 +23,7 @@ class FindAnswer:
     # ③ 검색 쿼리 생성
     # '의도명' 만 검색할지, 여러종류의 개체명 태그와 함께 검색할지 결정하는 '조건'을 만드는 간단한 함수
     def _make_query(self, intent_name, ner_tags):
-        sql = "select * from chatbot_train_data"
+        sql = "select * from chatbot_qa_data"
         if intent_name != None and ner_tags == None:
             sql = sql + " where intent='{}' ".format(intent_name)
 
@@ -49,11 +49,11 @@ class FindAnswer:
     # 변환해야 하는 태그가 더 존재한다면 변환 규칙을 추가하면 됩니다.
     
     def tag_to_word(self, ner_predicts, answer):
-        for word, tag in ner_predicts:
+        # for word, tag in ner_predicts:
 
-            # 변환해야하는 태그가 있는 경우 추가
-            if tag == 'B_FOOD' or tag == 'B_DT' or tag == 'B_TI':
-                answer = answer.replace(tag, word)
+        #     # 변환해야하는 태그가 있는 경우 추가
+        #     if tag == 'B_FOOD' or tag == 'B_DT' or tag == 'B_TI':
+        #         answer = answer.replace(tag, word)
 
         answer = answer.replace('{', '')
         answer = answer.replace('}', '')
@@ -67,11 +67,11 @@ class FindAnswer:
                 if tag == "B_CATEGORY":
                     temp1 = word
                     break
-            temp = {"신발": '0', "바지": '1', "스니커즈": '2', "상의": '3', "스포츠/용품": '4', "시계": '5', "안경테": '19',
-                   "여성": '6', "가방": '7', "아우터": '8', "모자": '9', "액세서리": '10', "주얼리": '11', "예술": '15', 
-                    "책": '12', "음악":'12', "티켓": '12', "뷰티": '13', "스커트": '14', "생활": '15', "취미": '15',
-                   "레그웨어": '16', "양말": '16', "속옷": '17', "원피스": '18', "선글라스": '19', "반려동물": '20'}
-            r = pd.read_excel(f"C:/Users/c/category_{temp[temp1]}.xlsx")[:50].T[:50].T
+            temp = {"신발": '0', "바지": '1', "스니커즈": '2', "상의": '3', "스포츠/용품": '4', "시계": '5',
+                   "여성": '6', "가방": '7', "아우터": '8', "모자": '9', "액세서리": '10', "주얼리": '11', 
+                    "책/음악/티켓": '12', "뷰티": '13', "스커트": '14', "생활/취미/예술": '15',
+                   "양말/레그웨어": '16', "속옷": '17', "원피스": '18', "선글라스/안경테": '19', "반려동물": '20'}
+            r = pd.read_excel(f"D:/DevRoot/new/TeamProj2/model/catagory/category_{temp[temp1]}.xlsx")[:50].T[:50].T
             R = r.values
             my_ratings = r.values[-1]
             Where_NaN = np.argwhere(np.isnan(my_ratings)).ravel()
