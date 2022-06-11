@@ -23,7 +23,7 @@ class FindAnswer:
     # ③ 검색 쿼리 생성
     # '의도명' 만 검색할지, 여러종류의 개체명 태그와 함께 검색할지 결정하는 '조건'을 만드는 간단한 함수
     def _make_query(self, intent_name, ner_tags):
-        sql = "select * from chatbot_qa_data"
+        sql = "select * from chatbot_train_data"
         if intent_name != None and ner_tags == None:
             sql = sql + " where intent='{}' ".format(intent_name)
 
@@ -57,4 +57,75 @@ class FindAnswer:
 
         answer = answer.replace('{', '')
         answer = answer.replace('}', '')
-        return answer
+        
+        if (answer == "고객님의 취향에 맞춰 골라봤어요. ,"):
+            import numpy as np
+            import pandas as pd
+            from config.ProductName import ProductName
+            
+            for word, tag in ner_predicts:
+                if tag == "B_CATEGORY":
+                    temp1 = word
+                    break
+            temp = {"신발": '0', "바지": '1', "스니커즈": '2', "상의": '3', "스포츠/용품": '4', "시계": '5', "안경테": '19',
+                   "여성": '6', "가방": '7', "아우터": '8', "모자": '9', "액세서리": '10', "주얼리": '11', "예술": '15', 
+                    "책": '12', "음악":'12', "티켓": '12', "뷰티": '13', "스커트": '14', "생활": '15', "취미": '15',
+                   "레그웨어": '16', "양말": '16', "속옷": '17', "원피스": '18', "선글라스": '19', "반려동물": '20'}
+            r = pd.read_excel(f"C:/Users/c/category_{temp[temp1]}.xlsx")[:50].T[:50].T
+            R = r.values
+            my_ratings = r.values[-1]
+            Where_NaN = np.argwhere(np.isnan(my_ratings)).ravel()
+            
+            min_ = 100
+            Theta, X = self.initialize(R, 10)  # 행렬들 초기화
+            Theta, X, costs = self.gradient_descent(R, Theta, X, 100, 0.0007, 0.01)
+            if min_ > costs[-1] and costs[-1] != 0:
+                min_ = costs[-1]
+                Good_Theta, Good_X, Good_costs = Theta, X, costs
+                
+            max_rating = 0
+            max_rating_index = -1
+            predict_metrix = Good_Theta @ Good_X
+            for i in Where_NaN:
+                if predict_metrix[-1][i] > max_rating:
+                    max_rating = predict_metrix[-1][i]
+                    max_rating_index = i
+                    
+            answer += f"\n {r.columns[max_rating_index]}"
+            ProductName.name = r.columns[max_rating_index]
+        return answer 
+    
+    def loss(self, prediction, R): # 손실 함수
+        import numpy as np
+        return np.nansum((prediction - R)**2)
+
+
+    def initialize(self, R, num_features): # 랜덤으로 2개의 행렬 생성.
+        import numpy as np
+        num_users, num_items = R.shape
+
+        Theta = np.random.rand(num_users, num_features)
+        X = np.random.rand(num_features, num_items)
+
+        return Theta, X
+
+
+    def gradient_descent(self, R, Theta, X, iteration, alpha, lambda_): # 경사 하강법.
+        import numpy as np
+        num_user, num_items = R.shape
+        num_features = len(X)
+        costs = []
+
+        for _ in range(iteration):
+            prediction = Theta @ X
+            error = prediction - R
+            costs.append(self.loss(prediction, R))
+
+            for i in range(num_user):
+                for j in range(num_items):
+                    if not np.isnan(R[i][j]):
+                        for k in range(num_features):
+                            Theta[i][k] -= alpha * (np.nansum(error[i, :]*X[k, :]) + lambda_*Theta[i][k])
+                            X[k][j] -= alpha * (np.nansum(error[:, j]*Theta[:, k]) + lambda_*X[k][j])
+
+        return Theta, X, costs
