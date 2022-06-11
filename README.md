@@ -24,4 +24,16 @@
 6. 구글드라이브 > DML-category_code수정.ipynb 파일 내 코드 실행  
    ** 마찬가지로 파일경로를 수정하여 실행해주세요. **  
    
-# 
+# 실행전 체크사항
+
+1. django-mathfilters 설치
+   ```pip install django-mathfilters```
+   숫자 천단위마다 (,) 콤마 추가하는 template tag
+
+2. ~/model/utils/FindAnswer
+   tag_to_word() 안 디렉토리 경로 변경(74번째 줄)
+   ```~/model/category/```
+
+# flask-cors 에러날 경우
+
+1. ```pip install -U flask-cors```
