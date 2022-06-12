@@ -85,7 +85,7 @@ function send_message(){
             //   response.Product_info['product_price']
             // )
 
-            const bot_info = `<img src="/media/${response.Product_info['product_image']}">\n상품명:${response.Product_info['product_name']}\n상품가격:${response.Product_info['product_price']}`
+            const bot_info = `<img src="/media/${response.Product_info['product_image']}">\n상품명:${response.Product_info['product_name']}\n상품가격:${response.Product_info['product_price']}\n링크: <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' >link</a>`
             bottext +=  "<div style='margin:15px 0;text-align:left;'><span style='padding:3px 10px;background-color:#DDD;border-radius:3px;'>"+ bot_info + "</span></div>" 
           }
           $chatbox.append(bottext);
