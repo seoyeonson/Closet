@@ -1,13 +1,13 @@
 import threading
 import json
 
-from model.config.DatabaseConfig import *
-from model.utils.Database import Database
-from model.utils.BotServer import BotServer
-from model.utils.Preprocess import Preprocess
-from model.models.intent.IntentModel import IntentModel
-from model.models.ner.NerModel import NerModel
-from model.utils.FindAnswer import FindAnswer
+from config.DatabaseConfig import *
+from utils.Database import Database
+from utils.BotServer import BotServer
+from utils.Preprocess import Preprocess
+from models.intent.IntentModel import IntentModel
+from models.ner.NerModel import NerModel
+from utils.FindAnswer import FindAnswer
 
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shop_project.settings")
@@ -15,17 +15,17 @@ import django
 django.setup()
 
 from shop.data import service, Recommend_product, Order, User_info
-from model.config.ProductName import ProductName
+from config.ProductName import ProductName
 
 # 전처리 객체 생성
-p = Preprocess(word2index_dic='model/train_tools/dict/chatbot_dict.bin',
+p = Preprocess(word2index_dic='train_tools/dict/chatbot_dict.bin',
                userdic='utils/train.tsv')
 
 # 의도 파악 모델
-intent = IntentModel(model_name='model/models/intent/intent_model.h5', preprocess=p)
+intent = IntentModel(model_name='models/intent/intent_model.h5', preprocess=p)
 
 # 개체명 인식 모델
-ner = NerModel(model_name='model/models/ner/ner_model.h5', preprocess=p)
+ner = NerModel(model_name='models/ner/ner_model.h5', preprocess=p)
 
 
 # 클라이언트 요청을 수행하는 함수 (쓰레드에 담겨 실행될거임)

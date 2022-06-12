@@ -2,7 +2,7 @@ from shop.models import Product, Product_category, User, User_order, User_order_
 import datetime
 import random
 import re
-from model.config.ProductName import ProductName
+from config.ProductName import ProductName
 
 
 # 의도 --> 서비스 연결
