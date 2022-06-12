@@ -78,7 +78,6 @@ def to_client(conn, addr, params):
             answer_image = None
         
         try:
-            intent_name =  ###
             service_result = service(username, query, ner_tags)
             print(service_result)
             answer = answer + str(service_result)
