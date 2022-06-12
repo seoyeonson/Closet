@@ -1,13 +1,52 @@
 from shop.models import Product, Product_category, User, User_order, User_order_detail, Cart, Cuppon, Customer_inquiry, Grade
 import datetime
 import random
+import re
+from model.config.ProductName import ProductName
+
+
+# 의도 --> 서비스 연결
+def service(username, intent_name, query, ner_tags=None):
+    
+    product = Recommend_product(ProductName.name).product
+    user_info = User_info(username)
+    order = Order(username)
+
+    if intent_name == '주문수량확인':
+        user_info.cart_insert(query)
+        return '****cart_link****'
+
+    elif ((intent_name == '상품추천요청') and (ner_tags != None)) or (intent_name == '카테고리선택'):
+        return product[:1].__str__().values() # 상품의 모든 정보가 담긴 쿼리셋  
+
+    elif intent_name == '상품색상문의':
+        return product.values('product_color') # 컬러 정보가 담긴 쿼리셋
+
+    elif intent_name == '상품가격문의':
+        return product[:1].__str__().values('product_price')
+
+    elif intent_name == '상품사이즈문의':
+        return product.values('product_size') # 컬러 정보가 담긴 쿼리셋
+
+    elif intent_name == ('반품요청' or '주문취소요청') :
+        return order.order_info()
+    
+    # elif intent_name == '주문취소요청':
+    #     return order.order_info()
+
+    # elif intent_name == '':
+    #     return order.order_info()
+    
+    else:
+        return '처리할 서비스 없음'
+
 
 # 상품 (Product) 정보 조회
 
 class Recommend_product():
     
-    def __init__(self, product_num):
-        self.product = Product.objects.get(product_num = product_num)
+    def __init__(self, product_name):
+        self.product = Product.objects.filter(product_name = product_name)
 
     def __str__(self):
         return self.product
@@ -79,15 +118,18 @@ class Order():
 class User_info():
 
     def __init__(self, username):
-        self.user = User.objects.get(username=username) 
+        self.user = User.objects.get(username=username)
     
     # 유저 보유한 쿠폰 조회
     def cuppon_search(self):
         cuppon = Cuppon.objects.get(u_id=self.user.u_id)
         return cuppon
 
+    
+
     # 장바구니에 상품 등록 (주문접수)
-    def cart_insert(self, product_num, product_count):
+    def cart_insert(self, product_num, query):
+        product_count = int(re.sub('[^0-9]', ' ', query).split(' ')[0]) # ex) '100개' 입력시 100만 가져오기 
         product = Product.objects.get(product_num=product_num)
         Cart.objects.create(
             product_num = product,

@@ -1,24 +1,31 @@
 import threading
 import json
 
-from config.DatabaseConfig import *
-from utils.Database import Database
-from utils.BotServer import BotServer
-from utils.Preprocess import Preprocess
-from models.intent.IntentModel import IntentModel
-from models.ner.NerModel import NerModel
-from utils.FindAnswer import FindAnswer
+from model.config.DatabaseConfig import *
+from model.utils.Database import Database
+from model.utils.BotServer import BotServer
+from model.utils.Preprocess import Preprocess
+from model.models.intent.IntentModel import IntentModel
+from model.models.ner.NerModel import NerModel
+from model.utils.FindAnswer import FindAnswer
 
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shop_project.settings")
+import django
+django.setup()
+
+from shop.data import service, Recommend_product, Order, User_info
+from model.config.ProductName import ProductName
 
 # 전처리 객체 생성
-p = Preprocess(word2index_dic='train_tools/dict/chatbot_dict.bin',
+p = Preprocess(word2index_dic='model/train_tools/dict/chatbot_dict.bin',
                userdic='utils/train.tsv')
 
 # 의도 파악 모델
-intent = IntentModel(model_name='models/intent/intent_model.h5', preprocess=p)
+intent = IntentModel(model_name='model/models/intent/intent_model.h5', preprocess=p)
 
 # 개체명 인식 모델
-ner = NerModel(model_name='models/ner/ner_model.h5', preprocess=p)
+ner = NerModel(model_name='model/models/ner/ner_model.h5', preprocess=p)
 
 
 # 클라이언트 요청을 수행하는 함수 (쓰레드에 담겨 실행될거임)
@@ -50,7 +57,7 @@ def to_client(conn, addr, params):
         # 의도 파악
         intent_predict = intent.predict_class(query)
         intent_name = intent.labels[intent_predict]
-        
+
         # 개체명 파악
         ner_predicts = ner.predict(query)
         ner_tags = ner.predict_tags(query)
@@ -60,6 +67,9 @@ def to_client(conn, addr, params):
             f = FindAnswer(db)
             answer_text, answer_image = f.search(intent_name, ner_tags)
             answer = f.tag_to_word(ner_predicts, answer_text)
+            username = 'user100'
+            service(username, intent, query, ner_tags)
+            print(intent_name, ner_tags)
 
         except:
             answer = "죄송해요 무슨 말인지 모르겠어요. 조금 더 공부 할게요."
@@ -121,6 +131,7 @@ if __name__ == '__main__':
         ))
         
         client.start()   # 쓰레드 시작. 위 target 함수가 별도의 쓰레드에 실려 실행된다.
+
 
 
 

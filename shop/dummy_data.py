@@ -41,15 +41,15 @@ def User_order_Insert():
     # 유저의 주문정보 데이터를 입력하는 함수입니다. 함수 실행할때마다 1개의 주문이 입력됩니다.
 
     User_order.objects.create(
-        user = User.objects.get(username='user1234'),
+        user = User.objects.get(username='user100'),
         adress = '인천광역시 연수구 114-14',
-        receive_name = '김초록',
+        receive_name = '김땡땡',
         receive_phone = '010-2222-3333',
         orderstatus = 1,
         received_date = datetime.datetime.now()
     )
     order = User_order.objects.order_by('-user')[0]
-    product = Product.objects.get(product_num=1)
+    product = Product.objects.get(product_num=10000)
     product_count = 5
 
     User_order_detail.objects.create(
