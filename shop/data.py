@@ -13,23 +13,52 @@ def service(username, intent_name, query, ner_tags=None):
     order = Order(username)
 
     if intent_name == '주문수량확인':
-        user_info.cart_insert(query)
-        return '****cart_link****'
+        try:
+            product_num = product.values('product_num')
+            user_info.cart_insert(product_num, query)
+            return '****cart_link****'
+        except Exception as ex:
+            print(ex)
+            return None
 
     elif ((intent_name == '상품추천요청') and (ner_tags != None)) or (intent_name == '카테고리선택'):
-        return product[:1].__str__().values() # 상품의 모든 정보가 담긴 쿼리셋  
+        try:
+            result = product[:1].__str__().values() # 상품의 모든 정보가 담긴 쿼리셋 
+        except Exception as ex:
+            print(ex)
+            return None
 
     elif intent_name == '상품색상문의':
-        return product.values('product_color') # 컬러 정보가 담긴 쿼리셋
+        try: 
+            result = product.values('product_color')
+        except Exception as ex:
+            print(ex)
+            result = None
+        return result # 컬러 정보가 담긴 쿼리셋
 
     elif intent_name == '상품가격문의':
-        return product[:1].__str__().values('product_price')
+        try: 
+            result = product[:1].__str__().values('product_price')
+        except Exception as ex:
+            print(ex)
+            result = None
+        return result
 
     elif intent_name == '상품사이즈문의':
-        return product.values('product_size') # 컬러 정보가 담긴 쿼리셋
+        try:
+            product.values('product_size') # 컬러 정보가 담긴 쿼리셋
+        except Exception as ex:
+            print(ex)
+            result = None
+        return result
 
     elif (intent_name == '반품요청') or (intent_name == '주문취소요청') :
-        return order.order_info()
+        try:
+            result = order.order_info()
+        except Exception as ex:
+            print(ex)
+            result = None 
+        return result
     
     # elif intent_name == '주문취소요청':
     #     return order.order_info()

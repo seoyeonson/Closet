@@ -61,21 +61,29 @@ def to_client(conn, addr, params):
         # 개체명 파악
         ner_predicts = ner.predict(query)
         ner_tags = ner.predict_tags(query)
+        print('try 이전: ', intent_name, ner_tags)
+
 
         # 답변 검색, 분석된 의도와 개체명을 이용해 학습 DB 에서 답변을 검색
         try:
             f = FindAnswer(db)
+            print(db)
             answer_text, answer_image = f.search(intent_name, ner_tags)
             answer = f.tag_to_word(ner_predicts, answer_text)
             username = 'user100'
-            service_result = service(username, intent_name, query, ner_tags)
             print(intent_name, ner_tags)
-            answer = answer + str(service_result)
 
         except:
             answer = "죄송해요 무슨 말인지 모르겠어요. 조금 더 공부 할게요."
             answer_image = None
-
+        
+        try:
+            intent_name =  ###
+            service_result = service(username, query, ner_tags)
+            print(service_result)
+            answer = answer + str(service_result)
+        except:
+            pass
         # 검색된 답변데이터와 함께 앞서 정의한 응답하는 JSON 으로 생성
         send_json_data_str = {
             "Query": query,
