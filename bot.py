@@ -68,8 +68,9 @@ def to_client(conn, addr, params):
             answer_text, answer_image = f.search(intent_name, ner_tags)
             answer = f.tag_to_word(ner_predicts, answer_text)
             username = 'user100'
-            service(username, intent, query, ner_tags)
+            service_result = service(username, intent_name, query, ner_tags)
             print(intent_name, ner_tags)
+            answer = answer + str(service_result)
 
         except:
             answer = "죄송해요 무슨 말인지 모르겠어요. 조금 더 공부 할게요."

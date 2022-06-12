@@ -28,7 +28,7 @@ def service(username, intent_name, query, ner_tags=None):
     elif intent_name == '상품사이즈문의':
         return product.values('product_size') # 컬러 정보가 담긴 쿼리셋
 
-    elif intent_name == ('반품요청' or '주문취소요청') :
+    elif (intent_name == '반품요청') or (intent_name == '주문취소요청') :
         return order.order_info()
     
     # elif intent_name == '주문취소요청':
