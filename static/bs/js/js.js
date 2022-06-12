@@ -77,7 +77,17 @@ function send_message(){
           $chatbox = $("#chatbox");
 
           // 답변출력
-          const bottext = "<div style='margin:15px 0;text-align:left;'><span style='padding:3px 10px;background-color:#DDD;border-radius:3px;'>" + response.Answer + "</span></div>";
+          let bottext = "<div style='margin:15px 0;text-align:left;'><span style='padding:3px 10px;background-color:#DDD;border-radius:3px;'>" + response.Answer + "</span></div>";
+          if(response.Product_info){
+            // const bot_info = $`<img src="/media/{0}">\n상품명:{1}\n상품가격:{2}`.format(
+            //   response.Product_info['product_image'],
+            //   response.Product_info['product_name'],
+            //   response.Product_info['product_price']
+            // )
+
+            const bot_info = `<img src="/media/${response.Product_info['product_image']}">\n상품명:${response.Product_info['product_name']}\n상품가격:${response.Product_info['product_price']}`
+            bottext +=  "<div style='margin:15px 0;text-align:left;'><span style='padding:3px 10px;background-color:#DDD;border-radius:3px;'>"+ bot_info + "</span></div>" 
+          }
           $chatbox.append(bottext);
 
           // 스크롤 조정하기

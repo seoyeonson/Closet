@@ -70,26 +70,28 @@ def to_client(conn, addr, params):
             print(db)
             answer_text, answer_image = f.search(intent_name, ner_tags)
             answer = f.tag_to_word(ner_predicts, answer_text)
-            username = 'user100'
             print(intent_name, ner_tags)
 
-        except:
+        except Exception as ex:
+            print(ex)
             answer = "죄송해요 무슨 말인지 모르겠어요. 조금 더 공부 할게요."
             answer_image = None
         
         try:
-            service_result = service(username, query, ner_tags)
+            username = 'user100'
+            print(ner_tags)
+            service_result = service(username, intent_name, query, ner_tags)
             print(service_result)
-            answer = answer + str(service_result)
-        except:
-            pass
+        except Exception as ex:
+            print(ex)
         # 검색된 답변데이터와 함께 앞서 정의한 응답하는 JSON 으로 생성
         send_json_data_str = {
             "Query": query,
             "Answer": answer,
             "AnswerImageUrl": answer_image,
             "Intent": intent_name,
-            "NER": str(ner_predicts)
+            "NER": str(ner_predicts),
+            "Product_info": service_result
         }
 
         # json 텍스트로 변환. 하여 전송

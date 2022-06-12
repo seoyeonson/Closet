@@ -11,6 +11,7 @@ def service(username, intent_name, query, ner_tags=None):
     product = Recommend_product(ProductName.name).product
     user_info = User_info(username)
     order = Order(username)
+    result = 'default'
 
     if intent_name == '주문수량확인':
         try:
@@ -23,10 +24,11 @@ def service(username, intent_name, query, ner_tags=None):
 
     elif ((intent_name == '상품추천요청') and (ner_tags != None)) or (intent_name == '카테고리선택'):
         try:
-            result = product[:1].__str__().values() # 상품의 모든 정보가 담긴 쿼리셋 
+            result = product[:1].values()[0] # 상품의 모든 정보가 담긴 쿼리셋
+            result['product_date'] = str(result['product_date'])
         except Exception as ex:
             print(ex)
-            return None
+        return result
 
     elif intent_name == '상품색상문의':
         try: 
