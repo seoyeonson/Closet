@@ -9,7 +9,7 @@ class NerModel:
     def __init__(self, model_name, preprocess):
 
         # BIO 태그 클래스 별 레이블
-        self.index_to_ner ={1: 'O', 2: 'B_CATEGORY', 3: 'I', 4: 'B_OG',5:'B_PS',6:'B_LC',7:'NNP',8:'B_TI',0:'PAD'}
+        self.index_to_ner ={1: 'O', 2: 'B_CATEGORY', 3: 'I', 4: 'B_OG',5:'B_PS',6:'B_LC',7:'NNP',8:'B_TI',0:'PAD'}   # 줄여야해요
 
         # 의도 분류 모델 불러오기
         self.model = load_model(model_name)
