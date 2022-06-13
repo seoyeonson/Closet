@@ -55,8 +55,8 @@ class FindAnswer:
         #     if tag == 'B_FOOD' or tag == 'B_DT' or tag == 'B_TI':
         #         answer = answer.replace(tag, word)
 
-        answer = answer.replace('{', '')
-        answer = answer.replace('}', '')
+#         answer = answer.replace('{', '')
+#         answer = answer.replace('}', '')
         
         if (answer == "고객님의 취향에 맞춰 골라봤어요. ,"):
             import numpy as np
@@ -71,7 +71,13 @@ class FindAnswer:
                    "여성": '6', "가방": '7', "아우터": '8', "모자": '9', "액세서리": '10', "주얼리": '11', 
                     "책/음악/티켓": '12', "뷰티": '13', "스커트": '14', "생활/취미/예술": '15',
                    "양말/레그웨어": '16', "속옷": '17', "원피스": '18', "선글라스/안경테": '19', "반려동물": '20'}
-            r = pd.read_excel(f"D:/DevRoot/new/TeamProj2/catagory/category_{temp[temp1]}.xlsx")[:50].T[:50].T
+            try:
+                r = pd.read_excel(f"C:\TeamProject_\TeamProj2\catagory\category_{temp[temp1]}.xlsx")[:50].T[:50].T
+            except:
+                # 잘못된 카테고리가 입력되면
+                ProductName.name = "" # 상품 이름 변수를 null string으로 바꾸고
+                raise Exception('잘못된 카테고리 입력됨.')
+                
             R = r.values
             my_ratings = r.values[-1]
             Where_NaN = np.argwhere(np.isnan(my_ratings)).ravel()
@@ -79,9 +85,9 @@ class FindAnswer:
             min_ = 100
             Theta, X = self.initialize(R, 10)  # 행렬들 초기화
             Theta, X, costs = self.gradient_descent(R, Theta, X, 100, 0.0007, 0.01)
-            # if min_ > costs[-1] and costs[-1] != 0:
-            #     min_ = costs[-1]
-            Good_Theta, Good_X, Good_costs = Theta, X, costs
+            if min_ > costs[-1] and costs[-1] != 0:
+                min_ = costs[-1]
+                Good_Theta, Good_X, Good_costs = Theta, X, costs
                 
             max_rating = 0
             max_rating_index = -1
