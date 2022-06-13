@@ -11,7 +11,9 @@ def service(username, intent_name, query, ner_tags=None):
     product = Recommend_product(ProductName.name).product
     user_info = User_info(username)
     order = Order(username)
-    result = 'default'
+    result = None
+
+    print(type(ner_tags))
 
     if intent_name == '주문수량확인':
         try:
@@ -69,7 +71,7 @@ def service(username, intent_name, query, ner_tags=None):
     #     return order.order_info()
     
     else:
-        return '처리할 서비스 없음'
+        return None
 
 
 # 상품 (Product) 정보 조회

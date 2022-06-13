@@ -78,7 +78,7 @@ def to_client(conn, addr, params):
             answer_image = None
         
         try:
-            username = 'user100'
+            username = 'user1234'
             print(ner_tags)
             service_result = service(username, intent_name, query, ner_tags)
             print(service_result)
@@ -93,6 +93,8 @@ def to_client(conn, addr, params):
             "NER": str(ner_predicts),
             "Product_info": service_result
         }
+        
+        service_result = None
 
         # json 텍스트로 변환. 하여 전송
         message = json.dumps(send_json_data_str)

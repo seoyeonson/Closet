@@ -51,7 +51,7 @@ function send_message(){
   }
 
   // 입력한 채팅 화면에 출력
-  const addtext = "<div style='margin:15px 0;text-align:right;max-width:100vmin;'> <span style='padding:3px 10px;background-color:black;border-radius:3px;color:white;max-width:100vmin;'>" + chattext + "</span></div>";
+  const addtext = "<div class='mytext'> <span class='mytext_span'>" + chattext + "</span></div>";
   $("#chatbox").append(addtext);
 
   // 먼저 입력했던 것은 지우기
@@ -76,17 +76,12 @@ function send_message(){
 
           $chatbox = $("#chatbox");
 
+          let bottext =  `<img src="/media/${response.Product_info['product_image']}" class='botimg'></img>`;
           // 답변출력
-          let bottext = "<div style='margin:15px 0;text-align:left;'><span style='padding:3px 10px;background-color:#DDD;border-radius:3px;'>" + response.Answer + "</span></div>";
+          bottext += `<div><div class='bottext_div'>${response.Answer}</div></div>`;
           if(response.Product_info){
-            // const bot_info = $`<img src="/media/{0}">\n상품명:{1}\n상품가격:{2}`.format(
-            //   response.Product_info['product_image'],
-            //   response.Product_info['product_name'],
-            //   response.Product_info['product_price']
-            // )
-
-            const bot_info = `<img src="/media/${response.Product_info['product_image']}">\n상품명:${response.Product_info['product_name']}\n상품가격:${response.Product_info['product_price']}\n링크: <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' >link</a>`
-            bottext +=  "<div style='margin:15px 0;text-align:left;'><span style='padding:3px 10px;background-color:#DDD;border-radius:3px;'>"+ bot_info + "</span></div>" 
+            const bot_info = `<p><span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' >상품을 자세히 보시려면 클릭하세요!</a>`
+            bottext +=  "<div><div class='bottext_div'>"+ bot_info + "</div></div>" 
           }
           $chatbox.append(bottext);
 

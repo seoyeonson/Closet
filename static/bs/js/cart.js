@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $("#all_agree").change(all_agree);
     $(".choice").change(del_agree);
-    $("#auth_btn").click(phone_confirm);
+    // $("#auth_btn").click(phone_confirm);
     $("#confirm_btn").off().on("click",confirm_num);
     $("#purchase_btn").off().on("click",purchase);
     $(".plus-minus-btn").off().on("click", choice_people);

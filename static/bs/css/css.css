@@ -182,6 +182,36 @@ table td{
     outline: none;
 }
 
+.mytext{
+    margin: 25px 0;
+    text-align:right;
+    max-width:100vmin;
+    display: block;
+}
+
+.mytext_span{
+    padding: 10px 15px;
+    background-color:black;
+    border-radius: 10px;
+    color:white;
+    max-width:100vmin;
+}
+
+.bottext_div{
+    margin: 4px 0;
+    text-align:left;
+    display: inline-block;
+    padding:10px 15px;
+    background-color:#DDD;
+    border-radius: 10px;
+}
+
+.botimg{
+    width: 50%;
+    height: auto;
+    border-radius: 10px;
+}
+
 header{
     width: 100%;
     height: 69px;
