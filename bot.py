@@ -85,6 +85,7 @@ def to_client(conn, addr, params):
         except Exception as ex:
             print(ex)
         # 검색된 답변데이터와 함께 앞서 정의한 응답하는 JSON 으로 생성
+
         send_json_data_str = {
             "Query": query,
             "Answer": answer,

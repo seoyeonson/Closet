@@ -76,7 +76,12 @@ function send_message(){
 
           $chatbox = $("#chatbox");
 
-          let bottext =  `<img src="/media/${response.Product_info['product_image']}" class='botimg'></img>`;
+          let bottext = '';
+
+          if(response.Product_info){
+            bottext +=  `<img src="/media/${response.Product_info['product_image']}" class='botimg'></img>`;
+          }
+          
           // 답변출력
           bottext += `<div><div class='bottext_div'>${response.Answer}</div></div>`;
           if(response.Product_info){
