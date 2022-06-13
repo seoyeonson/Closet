@@ -78,9 +78,18 @@ def to_client(conn, addr, params):
             answer_image = None
         
         try:
-            username = 'user1234'
+            username = 'user100'
             print(ner_tags)
             service_result = service(username, intent_name, query, ner_tags)
+
+            if (service_result == '사이즈 정보가 없습니다') or (service_result == '색상 정보가 없습니다'):
+                answer = service_result 
+                service_result = None
+            
+            elif type(service_result) == type(''):
+                answer += service_result
+                service_result = None
+
             print(service_result)
         except Exception as ex:
             print(ex)

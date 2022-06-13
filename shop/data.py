@@ -17,9 +17,8 @@ def service(username, intent_name, query, ner_tags=None):
 
     if intent_name == '주문수량확인':
         try:
-            product_num = product.values('product_num')
-            user_info.cart_insert(product_num, query)
-            return '****cart_link****'
+            user_info.cart_insert(product[0], query)
+            return None
         except Exception as ex:
             print(ex)
             return None
@@ -34,7 +33,12 @@ def service(username, intent_name, query, ner_tags=None):
 
     elif intent_name == '상품색상문의':
         try: 
-            result = product.values('product_color')
+            result = list(product.values('product_color')) # 컬러 정보가 담긴 쿼리셋
+            print(result)
+            if result[0]['product_color'] == '':
+                return '색상 정보가 없습니다'
+            result = [i['product_color'] for i in result]
+            result = '<br>'.join(result)        
         except Exception as ex:
             print(ex)
             result = None
@@ -42,7 +46,7 @@ def service(username, intent_name, query, ner_tags=None):
 
     elif intent_name == '상품가격문의':
         try: 
-            result = product[:1].__str__().values('product_price')
+            result = '<br><br>' + str(product[:1].values('product_price')[0].get('product_price'))
         except Exception as ex:
             print(ex)
             result = None
@@ -50,7 +54,11 @@ def service(username, intent_name, query, ner_tags=None):
 
     elif intent_name == '상품사이즈문의':
         try:
-            product.values('product_size') # 컬러 정보가 담긴 쿼리셋
+            result = list(product.values('product_size')) # 컬러 정보가 담긴 쿼리셋
+            if result[0]['product_size'] == '':
+                return '사이즈 정보가 없습니다'
+            result = [i['product_size'] for i in result]
+            result = '<br>'.join(result)
         except Exception as ex:
             print(ex)
             result = None
@@ -108,15 +116,15 @@ class Order():
 
             received_date = f'수령일: {order.get("received_date")}' if order.get('received_date') != None else ''
 
-            data = f'''주문번호: {order.get('order_num')}\n 
-                        주문상품: {order_detail.product_num.product_name}\n
-                        주문수량: {order_detail.product_count}\n 
-                        주문금액: {order_detail.product_price}\n
-                        주문일시: {order.get('order_date')}\n
-                        주소: {order.get('adress')}\n
-                        수령인: {order.get('receive_name')}\n
-                        전화번호: {order.get('receive_phone')}\n
-                        주문상태: {User_order.ORDERSTATUS[order.get('orderstatus')-1][1]}\n''' + received_date
+            data = f'''<br><br>주문번호: {order.get('order_num')}<br> 
+                        주문상품: {order_detail.product_num.product_name}<br> 
+                        주문수량: {order_detail.product_count}<br> 
+                        주문금액: {order_detail.product_price}<br> 
+                        주문일시: {order.get('order_date')}<br> 
+                        주소: {order.get('adress')}<br> 
+                        수령인: {order.get('receive_name')}<br> 
+                        전화번호: {order.get('receive_phone')}<br> 
+                        주문상태: {User_order.ORDERSTATUS[order.get('orderstatus')-1][1]}<br> ''' + received_date
 
         
         return data
@@ -161,9 +169,8 @@ class User_info():
     
 
     # 장바구니에 상품 등록 (주문접수)
-    def cart_insert(self, product_num, query):
+    def cart_insert(self, product, query):
         product_count = int(re.sub('[^0-9]', ' ', query).split(' ')[0]) # ex) '100개' 입력시 100만 가져오기 
-        product = Product.objects.get(product_num=product_num)
         Cart.objects.create(
             product_num = product,
             u_id= self.user,

@@ -85,9 +85,7 @@ class FindAnswer:
             min_ = 100
             Theta, X = self.initialize(R, 10)  # 행렬들 초기화
             Theta, X, costs = self.gradient_descent(R, Theta, X, 100, 0.0007, 0.01)
-            if min_ > costs[-1] and costs[-1] != 0:
-                min_ = costs[-1]
-                Good_Theta, Good_X, Good_costs = Theta, X, costs
+            Good_Theta, Good_X, Good_costs = Theta, X, costs
                 
             max_rating = 0
             max_rating_index = -1
