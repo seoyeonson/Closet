@@ -81,17 +81,18 @@ function send_message(){
           if(response.Product_info){
             bottext +=  `<img src="/media/${response.Product_info['product_image']}" class='botimg'></img>`;
           }
-          
+
           // 답변출력
-          bottext += `<div><div class='bottext_div'>${response.Answer}</div></div>`;
+          bottext += `<div><div class='bottext_div'>${response.Answer}`;
           if(response.Product_info){
-            const bot_info = `<p><span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' >상품을 자세히 보시려면 클릭하세요!</a>`
-            bottext +=  "<div><div class='bottext_div'>"+ bot_info + "</div></div>" 
+            const bot_info = `<br><br><span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
+            bottext += bot_info;
           }
+          bottext += "</div></div>"
           $chatbox.append(bottext);
 
           // 스크롤 조정하기
-          $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')})  
+          $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
       }
   });
 
