@@ -8,6 +8,7 @@ from utils.Preprocess import Preprocess
 from models.intent.IntentModel import IntentModel
 from models.ner.NerModel import NerModel
 from utils.FindAnswer import FindAnswer
+from config.now_state import now_state
 
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shop_project.settings")
@@ -71,6 +72,7 @@ def to_client(conn, addr, params):
             answer_text, answer_image = f.search(intent_name, ner_tags)
             answer = f.tag_to_word(ner_predicts, answer_text)
             print(intent_name, ner_tags)
+            print(now_state.state)
 
         except Exception as ex:
             print(ex)
@@ -101,7 +103,7 @@ def to_client(conn, addr, params):
             "AnswerImageUrl": answer_image,
             "Intent": intent_name,
             "NER": str(ner_predicts),
-            "Product_info": service_result
+            "Product_info": service_result,    
         }
         
         service_result = None

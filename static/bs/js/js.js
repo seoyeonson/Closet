@@ -79,15 +79,25 @@ function send_message(){
           let bottext = '';
 
           if(response.Product_info){
+            if(!(response.Product_info.hasOwnProperty('notice')))
             bottext +=  `<img src="/media/${response.Product_info['product_image']}" class='botimg'></img>`;
           }
 
           // 답변출력
           bottext += `<div><div class='bottext_div'>${response.Answer}`;
-          if(response.Product_info){
-            const bot_info = `<br><br><span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
-            bottext += bot_info;
-          }
+
+          
+          if (response.Product_info) {
+            if(response.Product_info.hasOwnProperty('notice')){
+              const options = `<br><br><span>[사이즈]</span> ${response.Product_info['sizes']}<br><span>[색상]</span> ${response.Product_info['colors']}<br><br>`
+              bottext += options
+            } else {
+              const bot_info = `<br><br><span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
+              bottext += bot_info;
+            }
+          };
+
+
           bottext += "</div></div>"
           $chatbox.append(bottext);
 

@@ -6,14 +6,14 @@ from config.ProductName import ProductName
 
 
 # 의도 --> 서비스 연결
-def service(username, intent_name, query, ner_tags=None):
+def service(username, intent_name, query, ner_tags, state=None):
     
-    product = Recommend_product(ProductName.name).product
+    product_class = Recommend_product(ProductName.name)
+    product = product_class.product
     user_info = User_info(username)
     order = Order(username)
     result = None
 
-    print(type(ner_tags))
 
     if intent_name == '주문수량확인':
         try:
@@ -33,12 +33,10 @@ def service(username, intent_name, query, ner_tags=None):
 
     elif intent_name == '상품색상문의':
         try: 
-            result = list(product.values('product_color')) # 컬러 정보가 담긴 쿼리셋
-            print(result)
-            if result[0]['product_color'] == '':
+            colors = product_class.color_info()
+            if colors == []:
                 return '색상 정보가 없습니다'
-            result = [i['product_color'] for i in result]
-            result = '<br>'.join(result)        
+            result = '<br>'.join(colors)        
         except Exception as ex:
             print(ex)
             result = None
@@ -54,11 +52,10 @@ def service(username, intent_name, query, ner_tags=None):
 
     elif intent_name == '상품사이즈문의':
         try:
-            result = list(product.values('product_size')) # 컬러 정보가 담긴 쿼리셋
-            if result[0]['product_size'] == '':
+            sizes = product_class.size_info()
+            if sizes == []:
                 return '사이즈 정보가 없습니다'
-            result = [i['product_size'] for i in result]
-            result = '<br>'.join(result)
+            result = '<br>'.join(sizes)
         except Exception as ex:
             print(ex)
             result = None
@@ -71,12 +68,28 @@ def service(username, intent_name, query, ner_tags=None):
             print(ex)
             result = None 
         return result
-    
-    # elif intent_name == '주문취소요청':
-    #     return order.order_info()
 
-    # elif intent_name == '':
-    #     return order.order_info()
+    elif intent_name == '상품주문':
+        result = {
+            'notice': '옵션입력',
+            'sizes': product_class.size_info(),
+            'colors': product_class.color_info(),
+        }
+        return result
+
+    # elif state == '옵션및수량입력': # FSM 완료 후 state 값 정해지면 변경
+
+    #     try:
+    #         result = order.order_insert(product, product_count)
+    #     except:
+    #         #TODO
+    #         pass
+
+    # elif state == '주문취소요청 -> 긍정':
+    #   return order.order_delete()
+          
+    # elif state == '반품요청 -> 긍정':
+    #   return order.order_update()
     
     else:
         return None
@@ -91,7 +104,20 @@ class Recommend_product():
 
     def __str__(self):
         return self.product
-
+    
+    def color_info(self):
+        result = list(self.product.values('product_color')) # 컬러 정보가 담긴 쿼리셋
+        result = [i['product_color'] for i in result]
+        if result[0]== '':
+            return []
+        return result
+    
+    def size_info(self):
+        result = result = list(self.product.values('product_size')) # 사이즈 정보가 담긴 쿼리셋
+        result = [i['product_size'] for i in result]
+        if result[0] == '':
+            return []
+        return result
 
 # 주문 관련
 
@@ -133,6 +159,28 @@ class Order():
     def order_status(self):
         order = self.order
         return User_order.ORDERSTATUS[order.get('orderstatus')-1][1]
+
+    def order_insert(self, product, product_count):
+        # 유저의 주문정보 데이터를 입력하는 함수입니다. 함수 실행할때마다 1개의 주문이 입력됩니다.
+
+        User_order.objects.create(
+            user = self.user,
+            adress = self.user.adress,
+            receive_name = self.user.name,
+            receive_phone = self.user.mobile,
+            orderstatus = 1,
+            received_date = datetime.datetime.now()
+        )
+        order = User_order.objects.order_by('-user')[0]
+        product = product
+        product_count = product_count
+
+        User_order_detail.objects.create(
+            product_num = product,
+            order_num = order,
+            product_count = product_count,
+            product_price = product.product_price * product_count
+        )
 
     # 주문 취소 (주문 삭제)
     def order_delete(self):

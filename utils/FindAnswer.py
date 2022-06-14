@@ -18,86 +18,115 @@ class FindAnswer:
         if answer is None:
             sql = self._make_query(intent_name, None)
             answer = self.db.select_one(sql)
-        
-        if now_state.state == 0:    
-            if intent_name == '상품추천요청':
-                if 'B_CATEGORY' in ner_tags:
-                    now_state.state = 1
-                else:
-                    now_state.state = 2
-            elif intent_name == '할인적용문의':
-                now_state.state = 10
-            elif intent_name == '반품요청':
-                now_state.state = 8
-            elif intent_name == '주문취소요청':
-                now_state.state = 9
-            elif intent_name == '배송일정확인':
-                now_state.state = 0
+            r_answer = answer['answer']
+
+        print(f"현재 state: {now_state.state}") 
+        if now_state.state == 0:
+            if now_state.flag == False:    
+                if intent_name == '상품추천요청':
+                    if 'B_CATEGORY' in ner_tags:
+                        self.change_state(1)
+                    else:
+                        self.change_state(2)
+                elif intent_name == '할인적용문의':
+                    self.change_state(10)
+                elif intent_name == '반품요청':
+                    self.change_state(8)
+                elif intent_name == '주문취소요청':
+                    self.change_state(9)
+                elif intent_name == '배송일정확인':
+                    self.change_state(0)
                 
-        elif now_state.state == 1:
-            if intent_name == '상품주문':
-                now_state.state = 6
-            elif intent_name == '할인적용문의':
-                now_state.state = 10
-            elif intent_name == '상품색상문의':
-                now_state.state = 5
-            elif intent_name == '반품요청':
-                now_state.state = 8
-            elif intent_name == '상품가격문의':
-                now_state.state = 3
-            elif intent_name == '주문취소요청':
-                now_state.state = 9
-            elif intent_name == '상품사이즈문의':
-                now_state.state = 4
-            elif intent_name == '배송일정확인':
-                now_state.state = 0
-            elif intent_name == '상품추천요청':
-                if 'B_CATEGORY' in ner_tags:
-                    now_state.state = 1
-                else:
-                    now_state.state = 2
+        if now_state.state == 1:
+            if now_state.flag == False: 
+                if intent_name == '상품주문':
+                    self.change_state(6)
+                elif intent_name == '할인적용문의':
+                    self.change_state(10)
+                elif intent_name == '상품색상문의':
+                    self.change_state(5)
+                elif intent_name == '반품요청':
+                    self.change_state(8)
+                elif intent_name == '상품가격문의':
+                    self.change_state(3)
+                elif intent_name == '주문취소요청':
+                    self.change_state(9)
+                elif intent_name == '상품사이즈문의':
+                    self.change_state(4)
+                elif intent_name == '배송일정확인':
+                    self.change_state(0)
+                elif intent_name == '상품추천요청':
+                    if 'B_CATEGORY' in ner_tags:
+                        self.change_state(1)
+                    else:
+                        self.change_state(2)
                     
-        elif now_state.state == 2:
-            if intent_name == '카테고리선택' and 'B_CATEGORY' in ner_tags:
-                now_state.state = 1
+        if now_state.state == 2:
+            if now_state.flag == False:
+                if intent_name == '카테고리선택' and 'B_CATEGORY' in ner_tags:
+                    self.change_state(1)
                 
-        elif now_state.state == 3:
-            if intent_name == '긍정':
-                now_state.state = 6
-            elif intent_name == '부정':
-                now_state.state = 1
+        if now_state.state == 3:
+            if now_state.flag == False:
+                if intent_name == '긍정':
+                    self.change_state(6)
+                elif intent_name == '부정':
+                    self.change_state(1)
+                elif intent_name == '상품추천요청':
+                    if 'B_CATEGORY' in ner_tags:
+                        self.change_state(1)
+                    else:
+                        self.change_state(2)
         
-        elif now_state.state == 4:
-            if intent_name == '긍정':
-                now_state.state = 6
-            elif intent_name == '부정':
-                now_state.state = 1
+        if now_state.state == 4:
+            if now_state.flag == False:
+                if intent_name == '긍정':
+                    self.change_state(6)
+                elif intent_name == '부정':
+                    self.change_state(1)
+                elif intent_name == '상품추천요청':
+                    if 'B_CATEGORY' in ner_tags:
+                        self.change_state(1)
+                    else:
+                        self.change_state(2)
         
-        elif now_state.state == 5:
-            if intent_name == '긍정':
-                now_state.state = 6
-            elif intent_name == '부정':
-                now_state.state = 1
+        if now_state.state == 5:
+            if now_state.flag == False:
+                if intent_name == '긍정':
+                    self.change_state(6)
+                elif intent_name == '부정':
+                    self.change_state(1)
+                elif intent_name == '상품추천요청':
+                    if 'B_CATEGORY' in ner_tags:
+                        self.change_state(1)
+                    else:
+                        self.change_state(2)
                 
-        elif now_state.state == 6:
-            now_state.state = 0
+        if now_state.state == 6:
+            if now_state.flag == False:
+                self.change_state(0)
         
-        elif now_state.state == 8:
-            if intent_name == '긍정' or intent_name == "부정":
-                now_state.state = 0
+        if now_state.state == 8:
+            if now_state.flag == False:
+                if intent_name == '긍정' or intent_name == "부정":
+                    self.change_state(0)
         
-        elif now_state.state == 9:
-            if intent_name == '긍정' or intent_name == "부정":
-                now_state.state = 0
+        if now_state.state == 9:
+            if now_state.flag == False:
+                if intent_name == '긍정' or intent_name == "부정":
+                    self.change_state(0)
                 
-        elif now_state.state == 10:
-            if intent_name == '긍정'
-                now_state.state = 2
-            elif intent_name == "부정":
-                now_state.state = 0
+        if now_state.state == 10:
+            if now_state.flag == False:
+                if intent_name == '긍정':
+                    self.change_state(2)
+                elif intent_name == "부정":
+                    self.change_state(0)
                    
-        else:
-            raise Exception('state value error')
+        if now_state.flag == False:
+            r_answer = '지금은 입력할 수 없는 값입니다.'
+        
+        now_state.flag = False
             
         # 0: 처음
         # 1: 추천받을 물품이 전역변수에 저장되어 있는 상황.
@@ -111,12 +140,12 @@ class FindAnswer:
         # 9: ____ 상품에 대해 주문 취소 요청하시는 게 맞으신가요? 라고 답변하는 상황
         # 10: 고객님의 ?% 쿠폰을 쓰면 할인 받을 수 있습니다. 고객님 취향에 맞는 상품을 추천해드릴까요? 라고 답변하는 상황.
         
-        return (answer['answer'], answer['answer_image'])
+        return (r_answer, answer['answer_image'])
     
     # ③ 검색 쿼리 생성
     # '의도명' 만 검색할지, 여러종류의 개체명 태그와 함께 검색할지 결정하는 '조건'을 만드는 간단한 함수
     def _make_query(self, intent_name, ner_tags):
-        sql = "select * from chatbot_q&a_data"
+        sql = "select * from chatbot_qa_data"
         if intent_name != None and ner_tags == None:
             sql = sql + " where intent='{}' ".format(intent_name)
 
@@ -226,3 +255,8 @@ class FindAnswer:
                             X[k][j] -= alpha * (np.nansum(error[:, j]*Theta[:, k]) + lambda_*X[k][j])
 
         return Theta, X, costs
+
+    def change_state(self, num):
+        from config.now_state import now_state
+        now_state.state = num
+        now_state.flag = True
