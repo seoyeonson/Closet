@@ -18,7 +18,8 @@ class FindAnswer:
         if answer is None:
             sql = self._make_query(intent_name, None)
             answer = self.db.select_one(sql)
-            r_answer = answer['answer']
+        
+        r_answer = answer['answer']
 
         print(f"현재 state: {now_state.state}") 
         if now_state.state == 0:
@@ -56,7 +57,9 @@ class FindAnswer:
                 elif intent_name == '배송일정확인':
                     self.change_state(0)
                 elif intent_name == '상품추천요청':
-                    if 'B_CATEGORY' in ner_tags:
+                    if ner_tags == None:
+                        self.change_state(2)
+                    elif 'B_CATEGORY' in ner_tags:
                         self.change_state(1)
                     else:
                         self.change_state(2)
@@ -68,42 +71,51 @@ class FindAnswer:
                 
         if now_state.state == 3:
             if now_state.flag == False:
-                if intent_name == '긍정':
-                    self.change_state(6)
-                elif intent_name == '부정':
-                    self.change_state(1)
-                elif intent_name == '상품추천요청':
-                    if 'B_CATEGORY' in ner_tags:
-                        self.change_state(1)
-                    else:
-                        self.change_state(2)
+                self.change_state(1)
+                # if intent_name == '긍정':
+        #             self.change_state(6)
+        #         elif intent_name == '부정':
+        #             self.change_state(1)
+        #         elif intent_name == '상품추천요청':
+        #             if 'B_CATEGORY' in ner_tags:
+        #                 self.change_state(1)
+        #             else:
+        #                 self.change_state(2)
         
         if now_state.state == 4:
             if now_state.flag == False:
-                if intent_name == '긍정':
-                    self.change_state(6)
-                elif intent_name == '부정':
-                    self.change_state(1)
-                elif intent_name == '상품추천요청':
-                    if 'B_CATEGORY' in ner_tags:
-                        self.change_state(1)
-                    else:
-                        self.change_state(2)
+                self.change_state(1)
+        #     if now_state.flag == False:
+        #         if intent_name == '긍정':
+        #             self.change_state(6)
+        #         elif intent_name == '부정':
+        #             self.change_state(1)
+        #         elif intent_name == '상품추천요청':
+        #             if 'B_CATEGORY' in ner_tags:
+        #                 self.change_state(1)
+        #             else:
+        #                 self.change_state(2)
         
         if now_state.state == 5:
             if now_state.flag == False:
-                if intent_name == '긍정':
-                    self.change_state(6)
-                elif intent_name == '부정':
-                    self.change_state(1)
-                elif intent_name == '상품추천요청':
-                    if 'B_CATEGORY' in ner_tags:
-                        self.change_state(1)
-                    else:
-                        self.change_state(2)
+                self.change_state(1)
+        #     if now_state.flag == False:
+        #         if intent_name == '긍정':
+        #             self.change_state(6)
+        #         elif intent_name == '부정':
+        #             self.change_state(1)
+        #         elif intent_name == '상품추천요청':
+        #             if 'B_CATEGORY' in ner_tags:
+        #                 self.change_state(1)
+        #             else:
+        #                 self.change_state(2)
                 
-        if now_state.state == 6:
-            if now_state.flag == False:
+        # if now_state.state == 6:
+        #     if (now_state.flag == False):
+        #         pass
+
+        if now_state.state == 7:
+            if (now_state.flag == False) and not(intent_name):
                 self.change_state(0)
         
         if now_state.state == 8:
@@ -124,7 +136,8 @@ class FindAnswer:
                     self.change_state(0)
                    
         if now_state.flag == False:
-            r_answer = '지금은 입력할 수 없는 값입니다.'
+            r_answer = '지금은 입력할 수 없는 값입니다. 처음으로 돌아갑니다.'
+            now_state.state = 0
         
         now_state.flag = False
             
@@ -139,7 +152,8 @@ class FindAnswer:
         # 8: ____ 상품에 대해 반품 요청하시는 게 맞으신가요? 라고 답변하는 상황
         # 9: ____ 상품에 대해 주문 취소 요청하시는 게 맞으신가요? 라고 답변하는 상황
         # 10: 고객님의 ?% 쿠폰을 쓰면 할인 받을 수 있습니다. 고객님 취향에 맞는 상품을 추천해드릴까요? 라고 답변하는 상황.
-        
+        print(f"바뀐 state: {now_state.state}") 
+
         return (r_answer, answer['answer_image'])
     
     # ③ 검색 쿼리 생성
@@ -188,37 +202,36 @@ class FindAnswer:
             for word, tag in ner_predicts:
                 if tag == "B_CATEGORY":
                     temp1 = word
-                    break
-            temp = {"신발": '0', "바지": '1', "스니커즈": '2', "상의": '3', "스포츠/용품": '4', "시계": '5',
-                   "여성": '6', "가방": '7', "아우터": '8', "모자": '9', "액세서리": '10', "주얼리": '11', 
-                    "책/음악/티켓": '12', "뷰티": '13', "스커트": '14', "생활/취미/예술": '15',
-                   "양말/레그웨어": '16', "속옷": '17', "원피스": '18', "선글라스/안경테": '19', "반려동물": '20'}
-            try:
-                r = pd.read_excel(f"C:\TeamProject_\TeamProj2\catagory\category_{temp[temp1]}.xlsx")[:50].T[:50].T
-            except:
-                # 잘못된 카테고리가 입력되면
-                ProductName.name = "" # 상품 이름 변수를 null string으로 바꾸고
-                raise Exception('잘못된 카테고리 입력됨.')
+                    temp = {"신발": '0', "바지": '1', "스니커즈": '2', "상의": '3', "스포츠/용품": '4', "시계": '5',
+                    "여성": '6', "가방": '7', "아우터": '8', "모자": '9', "액세서리": '10', "주얼리": '11', 
+                        "책/음악/티켓": '12', "뷰티": '13', "스커트": '14', "생활/취미/예술": '15',
+                    "양말/레그웨어": '16', "속옷": '17', "원피스": '18', "선글라스/안경테": '19', "반려동물": '20'}
+                    try:
+                        r = pd.read_excel(f"C:\TeamProject_\TeamProj2\catagory\category_{temp[temp1]}.xlsx")[:50].T[:50].T
+                    except:
+                        # 잘못된 카테고리가 입력되면
+                        ProductName.name = "" # 상품 이름 변수를 null string으로 바꾸고
+                        raise Exception('잘못된 카테고리 입력됨.')
                 
-            R = r.values
-            my_ratings = r.values[-1]
-            Where_NaN = np.argwhere(np.isnan(my_ratings)).ravel()
-            
-            min_ = 100
-            Theta, X = self.initialize(R, 10)  # 행렬들 초기화
-            Theta, X, costs = self.gradient_descent(R, Theta, X, 100, 0.0007, 0.01)
-            Good_Theta, Good_X, Good_costs = Theta, X, costs
-                
-            max_rating = 0
-            max_rating_index = -1
-            predict_metrix = Good_Theta @ Good_X
-            for i in Where_NaN:
-                if predict_metrix[-1][i] > max_rating:
-                    max_rating = predict_metrix[-1][i]
-                    max_rating_index = i
+                    R = r.values
+                    my_ratings = r.values[-1]
+                    Where_NaN = np.argwhere(np.isnan(my_ratings)).ravel()
                     
-            answer += f"\n {r.columns[max_rating_index]}"
-            ProductName.name = r.columns[max_rating_index]
+                    min_ = 100
+                    Theta, X = self.initialize(R, 10)  # 행렬들 초기화
+                    Theta, X, costs = self.gradient_descent(R, Theta, X, 100, 0.0007, 0.01)
+                    Good_Theta, Good_X, Good_costs = Theta, X, costs
+                        
+                    max_rating = 0
+                    max_rating_index = -1
+                    predict_metrix = Good_Theta @ Good_X
+                    for i in Where_NaN:
+                        if predict_metrix[-1][i] > max_rating:
+                            max_rating = predict_metrix[-1][i]
+                            max_rating_index = i
+                    
+                    # answer += f"\n {r.columns[max_rating_index]}"
+                    ProductName.name = r.columns[max_rating_index]
         return answer 
     
     def loss(self, prediction, R): # 손실 함수

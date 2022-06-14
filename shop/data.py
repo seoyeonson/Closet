@@ -1,3 +1,4 @@
+from config.now_state import now_state
 from shop.models import Product, Product_category, User, User_order, User_order_detail, Cart, Cuppon, Customer_inquiry, Grade
 import datetime
 import random
@@ -6,7 +7,7 @@ from config.ProductName import ProductName
 
 
 # 의도 --> 서비스 연결
-def service(username, intent_name, query, ner_tags, state=None):
+def service(username, intent_name, query, ner_tags, state):
     
     product_class = Recommend_product(ProductName.name)
     product = product_class.product
@@ -15,15 +16,16 @@ def service(username, intent_name, query, ner_tags, state=None):
     result = None
 
 
-    if intent_name == '주문수량확인':
-        try:
-            user_info.cart_insert(product[0], query)
-            return None
-        except Exception as ex:
-            print(ex)
-            return None
+    # if intent_name == '주문수량확인':
+    #     try:
+    #         user_info.cart_insert(product[0], query)
+    #         return None
+    #     except Exception as ex:
+    #         print(ex)
+    #         return None
 
-    elif ((intent_name == '상품추천요청') and (ner_tags != None)) or (intent_name == '카테고리선택'):
+    # 상품추천요청 (카테고리 개체명 있는 경우)
+    if state == 1:
         try:
             result = product[:1].values()[0] # 상품의 모든 정보가 담긴 쿼리셋
             result['product_date'] = str(result['product_date'])
@@ -31,27 +33,33 @@ def service(username, intent_name, query, ner_tags, state=None):
             print(ex)
         return result
 
-    elif intent_name == '상품색상문의':
+    # 색상문의
+    elif state == 5:
         try: 
+            now_state.state = 1
             colors = product_class.color_info()
             if colors == []:
-                return '색상 정보가 없습니다'
+                return '색상 정보가 없습니다'                
             result = '<br>'.join(colors)        
         except Exception as ex:
             print(ex)
             result = None
         return result # 컬러 정보가 담긴 쿼리셋
 
-    elif intent_name == '상품가격문의':
+    # 가격문의
+    elif state == 3:
         try: 
-            result = '<br><br>' + str(product[:1].values('product_price')[0].get('product_price'))
+            now_state.state = 1
+            result = str(product[:1].values('product_price')[0].get('product_price'))
         except Exception as ex:
             print(ex)
             result = None
         return result
 
-    elif intent_name == '상품사이즈문의':
+    # 사이즈 문의
+    elif state == 4:
         try:
+            now_state.state = 1
             sizes = product_class.size_info()
             if sizes == []:
                 return '사이즈 정보가 없습니다'
@@ -61,7 +69,8 @@ def service(username, intent_name, query, ner_tags, state=None):
             result = None
         return result
 
-    elif (intent_name == '반품요청') or (intent_name == '주문취소요청') :
+    # 주문정보 확인 (반품 or 주문취소)
+    elif (state == 8) or (state == 9):
         try:
             result = order.order_info()
         except Exception as ex:
@@ -69,7 +78,8 @@ def service(username, intent_name, query, ner_tags, state=None):
             result = None 
         return result
 
-    elif intent_name == '상품주문':
+    # 주문옵션 선택
+    elif state == 6:
         result = {
             'notice': '옵션입력',
             'sizes': product_class.size_info(),
@@ -77,13 +87,14 @@ def service(username, intent_name, query, ner_tags, state=None):
         }
         return result
 
-    # elif state == '옵션및수량입력': # FSM 완료 후 state 값 정해지면 변경
-
-    #     try:
-    #         result = order.order_insert(product, product_count)
-    #     except:
-    #         #TODO
-    #         pass
+    elif state == 6: # FSM 완료 후 state 값 정해지면 변경
+        try:
+            order.order_insert(product, product_count)
+            now_state.state = 0
+            return '주문완료되었습니다.'
+        except:
+            #TODO
+            pass
 
     # elif state == '주문취소요청 -> 긍정':
     #   return order.order_delete()
@@ -142,7 +153,7 @@ class Order():
 
             received_date = f'수령일: {order.get("received_date")}' if order.get('received_date') != None else ''
 
-            data = f'''<br><br>주문번호: {order.get('order_num')}<br> 
+            data = f'''주문번호: {order.get('order_num')}<br> 
                         주문상품: {order_detail.product_num.product_name}<br> 
                         주문수량: {order_detail.product_count}<br> 
                         주문금액: {order_detail.product_price}<br> 

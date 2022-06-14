@@ -81,8 +81,9 @@ def to_client(conn, addr, params):
         
         try:
             username = 'user100'
+            state = now_state.state
             print(ner_tags)
-            service_result = service(username, intent_name, query, ner_tags)
+            service_result = service(username, intent_name, query, ner_tags, state)
 
             if (service_result == '사이즈 정보가 없습니다') or (service_result == '색상 정보가 없습니다'):
                 answer = service_result 
@@ -91,6 +92,9 @@ def to_client(conn, addr, params):
             elif type(service_result) == type(''):
                 answer += service_result
                 service_result = None
+                
+            elif service_result == '주문완료되었습니다.':
+                answer = service_result                
 
             print(service_result)
         except Exception as ex:

@@ -136,6 +136,26 @@ table td{
     width: 95%;
 }
 
+.test input[type="radio"] {
+    display: none;
+}
+
+.test input[type="radio"] + span {
+    display: inline-block;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.test input[type="radio"]:checked + span {
+    background-color: black;
+    color: white;
+}
+
 .chevron_left{
     position: absolute;
     top: 20px;

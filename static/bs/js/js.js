@@ -100,10 +100,27 @@ function send_message(){
           
           if (response.Product_info) {
             if(response.Product_info.hasOwnProperty('notice')){
-              const options = `<br><br><span>[사이즈]</span> ${response.Product_info['sizes']}<br><span>[색상]</span> ${response.Product_info['colors']}<br><br>`
+              sizes = ''
+              for (var size of response.Product_info['sizes']){
+                sizes += `<label class="test"><input type="radio" name="size" value="${size}"><span>${size}</span></label><br>`
+              }
+              colors = ''
+              for (var color of response.Product_info['colors']){
+                colors += `<label class="test" ><input type="radio" name="color" value="${color}"><span>${color}</span></label><br>`
+              }
+
+              if(sizes != ''){
+                sizes = '<span>사이즈 선택<span><br>' + sizes
+              } else if (colors != ''){
+                colors = '<span>색상 선택<span><br>' + sizes
+              }
+
+              const options = `${sizes}${colors}`
+              bottext += '<br><br>'
               bottext += options
             } else {
-              const bot_info = `<br><br><span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
+              const bot_info = `<span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
+              bottext += '<br><br>'
               bottext += bot_info;
             }
           };
