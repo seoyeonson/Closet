@@ -6,7 +6,8 @@ class FindAnswer:
         
     # ② 답변 검색
     # 의도명(intent_name) 과 개체명 태그 리스트(ner_tags) 를 이용해 질문의 답변을 검색
-    def search(self, intent_name, ner_tags):  
+    def search(self, intent_name, ner_tags):
+        from config.now_state import now_state
         # 의도명, 개체명으로 답변 검색
         sql = self._make_query(intent_name, ner_tags)
         answer = self.db.select_one(sql)
@@ -17,13 +18,105 @@ class FindAnswer:
         if answer is None:
             sql = self._make_query(intent_name, None)
             answer = self.db.select_one(sql)
+        
+        if now_state.state == 0:    
+            if intent_name == '상품추천요청':
+                if 'B_CATEGORY' in ner_tags:
+                    now_state.state = 1
+                else:
+                    now_state.state = 2
+            elif intent_name == '할인적용문의':
+                now_state.state = 10
+            elif intent_name == '반품요청':
+                now_state.state = 8
+            elif intent_name == '주문취소요청':
+                now_state.state = 9
+            elif intent_name == '배송일정확인':
+                now_state.state = 0
+                
+        elif now_state.state == 1:
+            if intent_name == '상품주문':
+                now_state.state = 6
+            elif intent_name == '할인적용문의':
+                now_state.state = 10
+            elif intent_name == '상품색상문의':
+                now_state.state = 5
+            elif intent_name == '반품요청':
+                now_state.state = 8
+            elif intent_name == '상품가격문의':
+                now_state.state = 3
+            elif intent_name == '주문취소요청':
+                now_state.state = 9
+            elif intent_name == '상품사이즈문의':
+                now_state.state = 4
+            elif intent_name == '배송일정확인':
+                now_state.state = 0
+            elif intent_name == '상품추천요청':
+                if 'B_CATEGORY' in ner_tags:
+                    now_state.state = 1
+                else:
+                    now_state.state = 2
+                    
+        elif now_state.state == 2:
+            if intent_name == '카테고리선택' and 'B_CATEGORY' in ner_tags:
+                now_state.state = 1
+                
+        elif now_state.state == 3:
+            if intent_name == '긍정':
+                now_state.state = 6
+            elif intent_name == '부정':
+                now_state.state = 1
+        
+        elif now_state.state == 4:
+            if intent_name == '긍정':
+                now_state.state = 6
+            elif intent_name == '부정':
+                now_state.state = 1
+        
+        elif now_state.state == 5:
+            if intent_name == '긍정':
+                now_state.state = 6
+            elif intent_name == '부정':
+                now_state.state = 1
+                
+        elif now_state.state == 6:
+            now_state.state = 0
+        
+        elif now_state.state == 8:
+            if intent_name == '긍정' or intent_name == "부정":
+                now_state.state = 0
+        
+        elif now_state.state == 9:
+            if intent_name == '긍정' or intent_name == "부정":
+                now_state.state = 0
+                
+        elif now_state.state == 10:
+            if intent_name == '긍정'
+                now_state.state = 2
+            elif intent_name == "부정":
+                now_state.state = 0
+                   
+        else:
+            raise Exception('state value error')
             
+        # 0: 처음
+        # 1: 추천받을 물품이 전역변수에 저장되어 있는 상황.
+        # 2: 추천해달라고 했으나 핵심어 누락으로 카테고리를 입력받아야 하는 상황
+        # 3: 해당 상품은 __원입니다. 주문 도와드릴까요? 라고 답변하는 상황
+        # 4: 상품 사이즈는 다음과 같아요. ___. 주문 도와드릴까요? 라고 답변하는 상황
+        # 5: 상품 색상은 다음과 같아요. ___. 주문 도와드릴까요? 라고 답변하는 상황
+        # 6: 고객이 주문하고 싶다고 하여 고객에게 색상, 사이즈, 수량을 버튼으로 입력하라고 하는 상황
+        # 7: x
+        # 8: ____ 상품에 대해 반품 요청하시는 게 맞으신가요? 라고 답변하는 상황
+        # 9: ____ 상품에 대해 주문 취소 요청하시는 게 맞으신가요? 라고 답변하는 상황
+        # 10: 고객님의 ?% 쿠폰을 쓰면 할인 받을 수 있습니다. 고객님 취향에 맞는 상품을 추천해드릴까요? 라고 답변하는 상황.
+        
         return (answer['answer'], answer['answer_image'])
     
     # ③ 검색 쿼리 생성
     # '의도명' 만 검색할지, 여러종류의 개체명 태그와 함께 검색할지 결정하는 '조건'을 만드는 간단한 함수
     def _make_query(self, intent_name, ner_tags):
-        sql = "select * from chatbot_qa_data"
+        sql = "select * from chatbot_q&a_data"
         if intent_name != None and ner_tags == None:
             sql = sql + " where intent='{}' ".format(intent_name)
 
