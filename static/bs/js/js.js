@@ -1,31 +1,24 @@
-function count(type)  {
-  // 결과를 표시할 element
-  const resultElement = document.getElementById('result');
-  
-  // 현재 화면에 표시된 값
-  let number = resultElement.innerText;
-  
-  // 더하기/빼기
-  if(type === 'plus') {
-    number = parseInt(number) + 1;
-  }else if(type === 'minus')  {
-    number = parseInt(number) - 1;
-  }
-  
-  // 결과 출력
-  resultElement.innerText = number;
-}
-
 // chatbot
 $(function(){
-  
-  $("#chatbot").click(function(){
-    $("#chatbot_chat").css('display', 'block')
-  }); 
 
-  $("#close").click(function(){
-    $("#chatbot_chat").css('display', 'none')
+  $("#chatbot").click(function(){
+    $("#chatbot").hide(600);
+    $("#chatbot_chat").show(600);
   }); 
+  
+  $("#close").click(function(){
+    $("#chatbot").show(500);
+    $("#chatbot_chat").hide(500);
+  }); 
+  
+  // $("#chatbot").click(function(){
+  //   $("#chatbot_chat").css('display', 'block');
+  //   show_intro_msg();
+  // }); 
+
+  // $("#close").click(function(){
+  //   $("#chatbot_chat").css('display', 'none');
+  // }); 
   
   // SEND 버튼을 누르거나
   $("#sendbtn").click(function(){
@@ -40,6 +33,24 @@ $(function(){
   })
 
 })
+
+function showClock(){
+  var currentDate = new Date();
+  var divClock = document.getElementById('divClock');
+  var msg = "";
+  if(currentDate.getHours()>12){      //시간이 12보다 크다면 오후 아니면 오전
+      msg += "오후 ";
+      msg += currentDate.getHours()-12+":";
+  }
+  else {
+  msg += "오전 ";
+  msg += currentDate.getHours()+":";
+  }
+
+  msg += currentDate.getMinutes()+"분 ";
+
+  divClock.innerText = msg;
+}
 
 function send_message(){
   const chattext = $("#chattext").val().trim();
@@ -89,7 +100,7 @@ function send_message(){
             bottext += bot_info;
           }
           bottext += "</div></div>"
-          $chatbox.append(bottext);
+          $chatbox.append(bottext).fadeIn(300);
 
           // 스크롤 조정하기
           $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});

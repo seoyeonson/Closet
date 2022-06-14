@@ -121,6 +121,17 @@ table td{
     box-shadow: 0px 0px 34px 10px rgba(0, 0, 0, 0.1);
 }
 
+.chatbot_logo{
+    text-align: center;
+    padding: 30px 0;
+}
+
+.chat_intro{
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
 #chattext{
     width: 95%;
 }
@@ -202,7 +213,7 @@ table td{
     text-align:left;
     display: inline-block;
     padding:10px 15px;
-    background-color:#DDD;
+    background-color: rgba(0, 0, 0, 0.05);
     border-radius: 10px;
 }
 
@@ -244,6 +255,7 @@ header li {
 }
 
 .logo{
+    font-family: 'Faster One', cursive;
     font-size: 30px;
     font-weight: bold;
     margin-right: 20px;
