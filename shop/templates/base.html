@@ -7,11 +7,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faster+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -30,7 +34,7 @@
 <body>
     <header class="container-fluid">
         <nav> <!-- 홈탑메뉴바 -->
-            <a href="{% url 'main' %}" class="menu_left logo">LOGO</a>
+            <a href="{% url 'main' %}" class="menu_left logo">CLOSET</a>
             <ul>
                 <li class="menu_left"><a href="{% url 'main' %}">상의</a></li>
                 <li class="menu_left"><a href="{% url 'list' 1 %}">바지</a></li>
@@ -56,7 +60,21 @@
             </div>
             <div id="chatbox"
              style="height:84%;margin-top:57px;padding:10px;overflow-y:scroll;overflow-x:hidden;max-height:80vh;">
-            </div>
+                    <div class="chatbot_logo logo">CLOSET</div>
+                    <div class="chat_intro"><h2>클로젯에 문의하기</h2>
+                        <span style="color: rgba(0, 0, 0, 0.4);">'취향에 맞는 옷'을 추천해드립니다.</span><br>
+                        <span style="font-size: 15px;"><i class="fas fa-bolt" style="font-size: 10px; color: rgb(0, 94, 255); margin-bottom: 20px;"></i> 보통 몇 분 내 빠른 답변</span>
+                    </div>
+                    <!-- <div id="divClock" class="clock"></div> -->
+                    <div>
+                        <div class="bottext_div">
+                            <span style="font-weight: bold;">고객님 안녕하세요?</span><br>
+                            나의 취향으로 쇼핑을 참 쉽게,<br> 
+                            클로젯 챗봇입니다. 🤖<br><br>
+                            원하시는 문의를 말씀해주세요!
+                        </div>
+                    </div>
+                </div>
             <div class="chabot_footer">
                 <hr>
                 <table width="100%">
