@@ -79,7 +79,7 @@ def product(request, name):
 
 def mypage(request):
     user = User.objects.get(u_id=1)
-    orders = User_order_detail.objects.all()
+    orders = User_order_detail.objects.filter(user=user)
     all_orders = len(orders)
 
     cuppons = Cuppon.objects.all()
@@ -96,7 +96,8 @@ def mypage(request):
     return render(request, 'mypage.html', context)
 
 def cart(request):
-    carts = Cart.objects.all()
+    user = User.objects.get(u_id=1)
+    carts = Cart.objects.filter(user=user)
     all_prods = len(carts)
 
     all_price = 0
