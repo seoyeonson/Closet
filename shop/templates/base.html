@@ -9,10 +9,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Faster+One&display=swap" rel="stylesheet">
@@ -31,9 +28,11 @@
 </head>
 {% block script %}
 {% endblock %}
+
 <body>
     <header class="container-fluid">
-        <nav> <!-- 홈탑메뉴바 -->
+        <nav>
+            <!-- 홈탑메뉴바 -->
             <a href="{% url 'main' %}" class="menu_left logo">CLOSET</a>
             <ul>
                 <li class="menu_left"><a href="{% url 'main' %}">상의</a></li>
@@ -59,22 +58,25 @@
                 <hr>
             </div>
             <div id="chatbox"
-             style="height:84%;margin-top:57px;padding:10px;overflow-y:scroll;overflow-x:hidden;max-height:80vh;">
-                    <div class="chatbot_logo logo">CLOSET</div>
-                    <div class="chat_intro"><h2>클로젯에 문의하기</h2>
-                        <span style="color: rgba(0, 0, 0, 0.4);">'취향에 맞는 옷'을 추천해드립니다.</span><br>
-                        <span style="font-size: 15px;"><i class="fas fa-bolt" style="font-size: 10px; color: rgb(0, 94, 255); margin-bottom: 20px;"></i> 보통 몇 분 내 빠른 답변</span>
-                    </div>
-                    <!-- <div id="divClock" class="clock"></div> -->
-                    <div>
-                        <div class="bottext_div">
-                            <span style="font-weight: bold;">고객님 안녕하세요?</span><br>
-                            나의 취향으로 쇼핑을 참 쉽게,<br> 
-                            클로젯 챗봇입니다. 🤖<br><br>
-                            원하시는 문의를 말씀해주세요!
-                        </div>
+                style="height:84%;margin-top:57px;padding:10px;overflow-y:scroll;overflow-x:hidden;max-height:80vh;">
+                <div class="chatbot_logo logo">CLOSET</div>
+                <div class="chat_intro">
+                    <h2>클로젯에 문의하기</h2>
+                    <span style="color: rgba(0, 0, 0, 0.4);">'취향에 맞는 옷'을 추천해드립니다.</span><br>
+                    <span style="font-size: 15px;"><i class="fas fa-bolt"
+                            style="font-size: 10px; color: rgb(0, 94, 255); margin-bottom: 20px;"></i> 보통 몇 분 내 빠른
+                        답변</span>
+                </div>
+                <!-- <div id="divClock" class="clock"></div> -->
+                <div>
+                    <div class="bottext_div">
+                        <span style="font-weight: bold;">고객님 안녕하세요?</span><br>
+                        나의 취향으로 쇼핑을 참 쉽게,<br>
+                        클로젯 챗봇입니다. 🤖<br><br>
+                        원하시는 문의를 말씀해주세요!
                     </div>
                 </div>
+            </div>
             <div class="chabot_footer">
                 <hr>
                 <table width="100%">
@@ -95,4 +97,52 @@
     <footer>
     </footer>
 </body>
+
+<script>
+    $(function () {
+        $(document).on("click", ".info_submit", function () {
+            send_info();
+        });
+    });
+
+    function send_info() {
+        size_info = $("input[name=size]:checked").val()
+        color_info = $("input[name=color]:checked").val()
+
+        if(size_info){
+            size_info = size_info.trim()
+        }else{
+            size_info = ''
+        };
+        if(color_info){
+            color_info = color_info.trim()
+        }else{
+            color_info = ''
+        }
+        count_info = $(".p_cnt_input").val().trim()
+        const jsonData_info = {
+            query: '3개',
+            info: {
+                'size': size_info,
+                'color': color_info,
+                'product_count': count_info
+            }
+        }
+
+        $.ajax({
+            url: 'http://127.0.0.10:5000/query/TEST',
+            type: "POST",
+            data: JSON.stringify(jsonData_info),
+            dataType: "JSON", // 응답받을 데이터 타입
+            contentType: "application/json; charset=utf-8",
+
+            success: function (response) {
+                alert(response.Answer);
+            }
+
+        });
+
+    };
+</script>
+
 </html>

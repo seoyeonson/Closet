@@ -156,6 +156,29 @@ table td{
     color: white;
 }
 
+.info_submit{
+    background-color: white;
+    width: 100%;
+    border: None;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.info_submit:hover{
+    background-color: #B6B6B6;
+}
+
+.p_cnt_btn{
+    background-color: black;
+    color: white;
+    border: None;
+    padding: 5px;
+}
+
+.p_cnt_input{
+    text-align: center;
+}
+
 .chevron_left{
     position: absolute;
     top: 20px;

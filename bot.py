@@ -80,13 +80,18 @@ def to_client(conn, addr, params):
             answer_image = None
         
         try:
-            username = 'user100'
+            username = 'user1234'
             state = now_state.state
             print(ner_tags)
-            service_result = service(username, intent_name, query, ner_tags, state)
+            info = recv_json_data.get('Info', None)
+            service_result = service(username, state, info)
 
             if (service_result == '사이즈 정보가 없습니다') or (service_result == '색상 정보가 없습니다'):
                 answer = service_result 
+                service_result = None
+
+            elif (intent_name == '긍정'):
+                answer = service_result
                 service_result = None
             
             elif type(service_result) == type(''):

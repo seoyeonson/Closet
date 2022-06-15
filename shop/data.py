@@ -1,3 +1,4 @@
+from pyparsing import col
 from config.now_state import now_state
 from shop.models import Product, Product_category, User, User_order, User_order_detail, Cart, Cuppon, Customer_inquiry, Grade
 import datetime
@@ -7,13 +8,13 @@ from config.ProductName import ProductName
 
 
 # 의도 --> 서비스 연결
-def service(username, intent_name, query, ner_tags, state):
-    
-    product_class = Recommend_product(ProductName.name)
-    product = product_class.product
-    user_info = User_info(username)
+def service(username, state, info):
+    if ProductName.name:
+        product_class = Recommend_product(ProductName.name)
+        product = product_class.product
     order = Order(username)
     result = None
+    order_product_info = info
 
 
     # if intent_name == '주문수량확인':
@@ -78,6 +79,16 @@ def service(username, intent_name, query, ner_tags, state):
             result = None 
         return result
 
+    elif state == 11: # 반품신청
+        order.order_update(1)
+        now_state.state = 0
+        return '반품신청 완료되었습니다.'
+
+    elif state == 12: # 주문취소
+        order.order_update(0)
+        now_state.state = 0
+        return '주문취소 완료되었습니다.'
+
     # 주문옵션 선택
     elif state == 6:
         result = {
@@ -87,14 +98,14 @@ def service(username, intent_name, query, ner_tags, state):
         }
         return result
 
-    elif state == 6: # FSM 완료 후 state 값 정해지면 변경
+    elif state == 7: # FSM 완료 후 state 값 정해지면 변경
         try:
-            order.order_insert(product, product_count)
+            order.order_insert(ProductName.name, order_product_info)
             now_state.state = 0
-            return '주문완료되었습니다.'
-        except:
-            #TODO
-            pass
+            return None
+        except Exception as ex:
+            print(ex)
+            return None
 
     # elif state == '주문취소요청 -> 긍정':
     #   return order.order_delete()
@@ -102,6 +113,13 @@ def service(username, intent_name, query, ner_tags, state):
     # elif state == '반품요청 -> 긍정':
     #   return order.order_update()
     
+    elif state == 10:
+        try:
+            user_info = User_info(username)
+            result = user_info.cuppon_search()
+            return result
+        except Exception as ex:
+            print(ex)
     else:
         return None
 
@@ -171,27 +189,33 @@ class Order():
         order = self.order
         return User_order.ORDERSTATUS[order.get('orderstatus')-1][1]
 
-    def order_insert(self, product, product_count):
+    def order_insert(self, product_name, order_product_info):
         # 유저의 주문정보 데이터를 입력하는 함수입니다. 함수 실행할때마다 1개의 주문이 입력됩니다.
+        try:
+            User_order.objects.create(
+                user = self.user,
+                adress = '강남구 테헤란로 100',
+                receive_name = self.user.name,
+                receive_phone = self.user.mobile,
+                orderstatus = 1,
+                received_date = datetime.datetime.now()
+            )
+            order = User_order.objects.filter(user=self.user.u_id).order_by('-received_date')[0]
+            color = order_product_info['color']
+            size = order_product_info['size']
+            # print(color, size, order_product_info['product_count'], type(order_product_info['product_count']))
+            product = Product.objects.filter(product_name=product_name, product_color=color, product_size=size).first()
+            product_count = int(order_product_info['product_count'])
 
-        User_order.objects.create(
-            user = self.user,
-            adress = self.user.adress,
-            receive_name = self.user.name,
-            receive_phone = self.user.mobile,
-            orderstatus = 1,
-            received_date = datetime.datetime.now()
-        )
-        order = User_order.objects.order_by('-user')[0]
-        product = product
-        product_count = product_count
-
-        User_order_detail.objects.create(
-            product_num = product,
-            order_num = order,
-            product_count = product_count,
-            product_price = product.product_price * product_count
-        )
+            User_order_detail.objects.create(
+                product_num = product,
+                order_num = order,
+                product_count = product_count,
+                product_price = product.product_price * product_count
+            )
+        except Exception as ex:
+            print('주문등록실패')
+            print(ex)
 
     # 주문 취소 (주문 삭제)
     def order_delete(self):
@@ -204,14 +228,20 @@ class Order():
     # 반품 처리 (주문상태 변경)
 
     def order_update(self, num):
-        order = self.order
-        order = User_order.objects.get(order_num=order.get('order_num'))
-        if num == 0: # 주문취소 하는 경우
-            order.order_status = 6
-        elif num == 1: # 반품신청 하는 경우
-            order.order_status = 7
-        order.save()
-        return '반품 처리 완료'
+        try:
+            order = self.order
+            print('filter : ',order)
+            order = User_order.objects.get(order_num=order.get('order_num'))
+            print(order.orderstatus)
+            if num == 0: # 주문취소 하는 경우
+                order.orderstatus = 6
+            elif num == 1: # 반품신청 하는 경우
+                order.orderstatus = 7
+            order.save()
+        except Exception as ex:
+            print('order_update 실패')
+            print(ex)
+        return num
 
 
 # 유저 쿠폰조회 / 장바구니 상품등록
@@ -222,17 +252,25 @@ class User_info():
     
     # 유저 보유한 쿠폰 조회
     def cuppon_search(self):
-        cuppon = Cuppon.objects.get(u_id=self.user.u_id)
-        return cuppon
+        try:
+            cuppon = Cuppon.objects.get(u_id=self.user.u_id)
+            percentage = int(cuppon.discount_rate * 100)
+            result = f'<br><{percentage}% 할인 쿠폰<br>수량: {cuppon.cuppon_num}개>'
+            print('쿠폰: ', percentage, cuppon)
+
+        except Exception as ex:
+            print('쿠폰 함수')
+            print(ex)
+        return result
 
     
 
-    # 장바구니에 상품 등록 (주문접수)
-    def cart_insert(self, product, query):
-        product_count = int(re.sub('[^0-9]', ' ', query).split(' ')[0]) # ex) '100개' 입력시 100만 가져오기 
-        Cart.objects.create(
-            product_num = product,
-            u_id= self.user,
-            product_count=product_count
-        )
-        return '장바구니 등록 완료'
+    # # 장바구니에 상품 등록 (주문접수)
+    # def cart_insert(self, product, query):
+    #     product_count = int(re.sub('[^0-9]', ' ', query).split(' ')[0]) # ex) '100개' 입력시 100만 가져오기 
+    #     Cart.objects.create(
+    #         product_num = product,
+    #         u_id= self.user,
+    #         product_count=product_count
+    #     )
+    #     return '장바구니 등록 완료'

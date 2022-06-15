@@ -25,7 +25,7 @@ class FindAnswer:
         if now_state.state == 0:
             if now_state.flag == False:    
                 if intent_name == '상품추천요청':
-                    if 'B_CATEGORY' in ner_tags:
+                    if ner_tags and ('B_CATEGORY' in ner_tags):
                         self.change_state(1)
                     else:
                         self.change_state(2)
@@ -66,7 +66,7 @@ class FindAnswer:
                     
         if now_state.state == 2:
             if now_state.flag == False:
-                if intent_name == '카테고리선택' and 'B_CATEGORY' in ner_tags:
+                if intent_name and ner_tags and ('B_CATEGORY' in ner_tags):
                     self.change_state(1)
                 
         if now_state.state == 3:
@@ -110,23 +110,25 @@ class FindAnswer:
         #             else:
         #                 self.change_state(2)
                 
-        # if now_state.state == 6:
-        #     if (now_state.flag == False):
-        #         pass
-
-        if now_state.state == 7:
-            if (now_state.flag == False) and not(intent_name):
-                self.change_state(0)
+        if now_state.state == 6:
+            if (now_state.flag == False) and (intent_name == '주문수량확인'):
+                self.change_state(7)
         
-        if now_state.state == 8:
+        if now_state.state == 8: # 반품
             if now_state.flag == False:
-                if intent_name == '긍정' or intent_name == "부정":
+                if intent_name == '긍정':
+                    self.change_state(11)
+                elif intent_name == '부정':
                     self.change_state(0)
+                    r_answer = '이용해주셔서 감사합니다. 문의사항이  있으시면 언제든 말씀 해주세요.'
         
-        if now_state.state == 9:
+        if now_state.state == 9: # 주문취소
             if now_state.flag == False:
-                if intent_name == '긍정' or intent_name == "부정":
+                if intent_name == '긍정':
+                    self.change_state(12)
+                elif intent_name == '부정':
                     self.change_state(0)
+                    r_answer = '이용해주셔서 감사합니다. 문의사항이  있으시면 언제든 말씀 해주세요.'
                 
         if now_state.state == 10:
             if now_state.flag == False:
@@ -162,6 +164,7 @@ class FindAnswer:
         sql = "select * from chatbot_qa_data"
         if intent_name != None and ner_tags == None:
             sql = sql + " where intent='{}' ".format(intent_name)
+            sql += 'and ner IS NULL'
 
         elif intent_name != None and ner_tags != None:
             where = ' where intent="%s" ' % intent_name

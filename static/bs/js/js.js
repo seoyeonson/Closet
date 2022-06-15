@@ -1,5 +1,16 @@
 // chatbot
 $(function(){
+  $(document ).on("click", "#plus_btn", function(){
+    num = parseInt($('.p_cnt_input').val().trim())
+    $('.p_cnt_input').val(num + 1)
+  });  
+  $(document ).on("click", "#minus_btn", function(){
+    num = parseInt($('.p_cnt_input').val().trim())
+    if(num > 1){
+      $('.p_cnt_input').val(num - 1)
+    };
+  }); 
+           
 
   $("#chatbot").click(function(){
     $("#chatbot").hide(600);
@@ -51,6 +62,8 @@ function showClock(){
 
   divClock.innerText = msg;
 }
+
+
 
 function send_message(){
   const chattext = $("#chattext").val().trim();
@@ -115,9 +128,9 @@ function send_message(){
                 colors = '<span>색상 선택<span><br>' + sizes
               }
 
-              const options = `${sizes}${colors}`
-              bottext += '<br><br>'
-              bottext += options
+              options = `${sizes}${colors}`
+              p_count = `<p>수량 선택</p><div><button class="p_cnt_btn" id="minus_btn"><i class="fa fa-minus p_minus" aria-hidden=true></i></button><input class="p_cnt_input" min="1" value=1 readonly><button class="p_cnt_btn" id="plus_btn"><i class="fa fa-plus p_plus" aria-hidden=true></i></button></div>`
+              bottext = bottext + '<br><br>' + options + p_count + '<br><button class="info_submit"><span>선택완료</span></button>'
             } else {
               const bot_info = `<span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
               bottext += '<br><br>'
