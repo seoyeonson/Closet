@@ -19,7 +19,7 @@ def main(request):
     }
     return render(request, 'index.html', context)
 
-def list(request, cg):
+def product_list(request, cg):
     products = Product.objects.filter(category_code_id=cg).values('product_name', 'product_price', 'product_image').distinct()
     category = Product_category.objects.filter(category_code=cg).values('category_name')
 
@@ -78,8 +78,17 @@ def product(request, name):
         return redirect(f'/cart/')
 
 def mypage(request):
+    orders = []
+    
     user = User.objects.get(u_id=1)
-    orders = User_order_detail.objects.filter(user=user)
+    order_list = list(User_order.objects.filter(user=user).values('order_num'))
+    order_list = [i['order_num'] for i in order_list] 
+    print(order_list)
+
+    for order in order_list:
+        orders += User_order_detail.objects.filter(order_num=order)
+
+    print(orders)
     all_orders = len(orders)
 
     cuppons = Cuppon.objects.all()
@@ -97,7 +106,7 @@ def mypage(request):
 
 def cart(request):
     user = User.objects.get(u_id=1)
-    carts = Cart.objects.filter(user=user)
+    carts = Cart.objects.filter(u_id=1)
     all_prods = len(carts)
 
     all_price = 0
