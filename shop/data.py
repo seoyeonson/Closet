@@ -41,7 +41,7 @@ def service(username, state, info):
             colors = product_class.color_info()
             if colors == []:
                 return '색상 정보가 없습니다'                
-            result = '<br>'.join(colors)        
+            result = '<br><br>' + '<br>'.join(colors)        
         except Exception as ex:
             print(ex)
             result = None
@@ -51,7 +51,7 @@ def service(username, state, info):
     elif state == 3:
         try: 
             now_state.state = 1
-            result = str(product[:1].values('product_price')[0].get('product_price'))
+            result = '<br><br>' + str(product[:1].values('product_price')[0].get('product_price')) + '원'
         except Exception as ex:
             print(ex)
             result = None
@@ -64,7 +64,7 @@ def service(username, state, info):
             sizes = product_class.size_info()
             if sizes == []:
                 return '사이즈 정보가 없습니다'
-            result = '<br>'.join(sizes)
+            result = '<br><br>' + '<br>'.join(sizes)
         except Exception as ex:
             print(ex)
             result = None
@@ -100,7 +100,7 @@ def service(username, state, info):
 
     elif state == 7: # FSM 완료 후 state 값 정해지면 변경
         try:
-            order.order_insert(ProductName.name, order_product_info)
+            order = order.order_insert(ProductName.name, order_product_info)
             now_state.state = 0
             return None
         except Exception as ex:
@@ -169,17 +169,30 @@ class Order():
         else:
             order_detail = User_order_detail.objects.get(order_num=order.get('order_num'))
 
-            received_date = f'수령일: {order.get("received_date")}' if order.get('received_date') != None else ''
+            received_date = f'- 수령일: {order.get("received_date")}<br>' if order.get('received_date') != None else ''
+            # received_date = f'<p>수령일: {order.get("received_date")}</p>' if order.get('received_date') != None else ''
 
-            data = f'''주문번호: {order.get('order_num')}<br> 
-                        주문상품: {order_detail.product_num.product_name}<br> 
-                        주문수량: {order_detail.product_count}<br> 
-                        주문금액: {order_detail.product_price}<br> 
-                        주문일시: {order.get('order_date')}<br> 
-                        주소: {order.get('adress')}<br> 
-                        수령인: {order.get('receive_name')}<br> 
-                        전화번호: {order.get('receive_phone')}<br> 
-                        주문상태: {User_order.ORDERSTATUS[order.get('orderstatus')-1][1]}<br> ''' + received_date
+            data = f'''<br><br>- 주문번호: {order.get('order_num')}<br> 
+                        - 주문상품: {order_detail.product_num.product_name}<br> 
+                        - 주문수량: {order_detail.product_count}<br> 
+                        - 주문금액: {order_detail.product_price}<br> 
+                        - 주문일시: {order.get('order_date')}<br> 
+                        - 주소: {order.get('adress')}<br> 
+                        - 수령인: {order.get('receive_name')}<br> 
+                        - 전화번호: {order.get('receive_phone')}<br> 
+                        - 주문상태: {User_order.ORDERSTATUS[order.get('orderstatus')-1][1]}<br> ''' + received_date
+
+            # data = f'''<div>
+            #             <div><p style="width: 50%">{order_detail.product_num.product_name}</p> <img src="/media/{order_detail.product_num.product_image}" style="width: 50%"></div>
+            #             <hr>
+            #             <p>주문번호: {order.get('order_num')}</p>
+            #             <p>주문일시: {order.get('order_date')}</p>
+            #             <p>주문수량: {order_detail.product_count}</p>
+            #             <p>주소: {order.get('adress')}</p>
+            #             <p>수령인: {order.get('receive_name')}</p>
+            #             <p>전화번호: {order.get('receive_phone')}</p>
+            #             <p>주문상태: {User_order.ORDERSTATUS[order.get('orderstatus')-1][1]}</p>'''+ received_date + '</div>'
+
 
         
         return data

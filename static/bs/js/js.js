@@ -22,48 +22,23 @@ $(function(){
     $("#chatbot_chat").hide(500);
   }); 
   
-  // $("#chatbot").click(function(){
-  //   $("#chatbot_chat").css('display', 'block');
-  //   show_intro_msg();
-  // }); 
-
-  // $("#close").click(function(){
-  //   $("#chatbot_chat").css('display', 'none');
-  // }); 
-  
   // SEND 버튼을 누르거나
   $("#sendbtn").click(function(){
       send_message();
+      // 스크롤 조정하기
+      $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
   }); 
 
   // ENTER key 가 눌리면
   $("#chattext").keyup(function(event){
       if(event.keyCode == 13){
           send_message()
+          // 스크롤 조정하기
+          $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
       }
   })
 
 })
-
-function showClock(){
-  var currentDate = new Date();
-  var divClock = document.getElementById('divClock');
-  var msg = "";
-  if(currentDate.getHours()>12){      //시간이 12보다 크다면 오후 아니면 오전
-      msg += "오후 ";
-      msg += currentDate.getHours()-12+":";
-  }
-  else {
-  msg += "오전 ";
-  msg += currentDate.getHours()+":";
-  }
-
-  msg += currentDate.getMinutes()+"분 ";
-
-  divClock.innerText = msg;
-}
-
-
 
 function send_message(){
   const chattext = $("#chattext").val().trim();
@@ -88,64 +63,130 @@ function send_message(){
       query: chattext
   }
 
-  $.ajax({
-      url: 'http://127.0.0.10:5000/query/TEST',
-      type: "POST",
-      data: JSON.stringify(jsonData),
-      dataType: "JSON",   // 응답받을 데이터 타입
-      contentType: "application/json; charset=utf-8",
+  new Promise(function(resolve, reject){
+    $chatbox = $("#chatbox");
+    let bottext = '<div><div id="loading" class="bottext_div"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div></div>';
+    $chatbox.append(bottext);
+    resolve();
+  }).then(function(result){
+    $.ajax({
+          url: 'http://127.0.0.10:5000/query/TEST',
+          type: "POST",
+          data: JSON.stringify(jsonData),
+          dataType: "JSON",   // 응답받을 데이터 타입
+          contentType: "application/json; charset=utf-8",
+    
+          success: function(response){
+              // 답변텍스트는 response.Answer 에 담겨 있다
 
-      success: function(response){
-          // 답변텍스트는 response.Answer 에 담겨 있다
-
-          $chatbox = $("#chatbox");
-
-          let bottext = '';
-
-          if(response.Product_info){
-            if(!(response.Product_info.hasOwnProperty('notice')))
-            bottext +=  `<img src="/media/${response.Product_info['product_image']}" class='botimg'></img>`;
+              $loading = $("#loading")
+    
+              let bottext = '';
+    
+              if(response.Product_info){
+                if(!(response.Product_info.hasOwnProperty('notice')))
+                bottext +=  `<img src="/media/${response.Product_info['product_image']}" class='botimg'></img>`;
+              }
+    
+              // 답변출력
+              bottext += `<div><div class='bottext_div'>${response.Answer}`;
+    
+              
+              if (response.Product_info) {
+                if(response.Product_info.hasOwnProperty('notice')){
+                  sizes = ''
+                  for (var size of response.Product_info['sizes']){
+                    sizes += `<label class="test"><input type="radio" name="size" value="${size}"><span>${size}</span></label><br>`
+                  }
+                  colors = ''
+                  for (var color of response.Product_info['colors']){
+                    colors += `<label class="test" ><input type="radio" name="color" value="${color}"><span>${color}</span></label><br>`
+                  }
+    
+                  if(sizes != ''){
+                    sizes = '<p class="choice_title">[사이즈 선택]</p>' + sizes
+                  } else if (colors != ''){
+                    colors = '<p class="choice_title">[색상 선택]</p>' + sizes
+                  }
+    
+                  options = `${sizes}${colors}`
+                  p_count = `<br><p class="choice_title">[수량 선택]</p><div><button class="p_cnt_btn" id="minus_btn"><i class="fa fa-minus p_minus" aria-hidden=true></i></button><input class="p_cnt_input" min="1" value=1 readonly><button class="p_cnt_btn" id="plus_btn"><i class="fa fa-plus p_plus" aria-hidden=true></i></button></div>`
+                  bottext = bottext + '<br><br>' + options + p_count + '<br><button class="info_submit"><span>구매하기</span></button>'
+                } else {
+                  const bot_info = `<span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
+                  bottext += '<br><br>'
+                  bottext += bot_info;
+                }
+              };
+    
+              $loading.html(bottext);
+              $loading.attr('class', '');
+              $loading.attr('id', 'new');
+    
+              // 스크롤 조정하기
+              $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
           }
+      });
+  })
 
-          // 답변출력
-          bottext += `<div><div class='bottext_div'>${response.Answer}`;
+  // $.ajax({
+  //     url: 'http://127.0.0.10:5000/query/TEST',
+  //     type: "POST",
+  //     data: JSON.stringify(jsonData),
+  //     dataType: "JSON",   // 응답받을 데이터 타입
+  //     contentType: "application/json; charset=utf-8",
+
+  //     success: function(response){
+  //         // 답변텍스트는 response.Answer 에 담겨 있다
+
+  //         $chatbox = $("#chatbox");
+
+  //         let bottext = '';
+
+  //         if(response.Product_info){
+  //           if(!(response.Product_info.hasOwnProperty('notice')))
+  //           bottext +=  `<img src="/media/${response.Product_info['product_image']}" class='botimg'></img>`;
+  //         }
+
+  //         // 답변출력
+  //         bottext += `<div><div class='bottext_div'>${response.Answer}`;
 
           
-          if (response.Product_info) {
-            if(response.Product_info.hasOwnProperty('notice')){
-              sizes = ''
-              for (var size of response.Product_info['sizes']){
-                sizes += `<label class="test"><input type="radio" name="size" value="${size}"><span>${size}</span></label><br>`
-              }
-              colors = ''
-              for (var color of response.Product_info['colors']){
-                colors += `<label class="test" ><input type="radio" name="color" value="${color}"><span>${color}</span></label><br>`
-              }
+  //         if (response.Product_info) {
+  //           if(response.Product_info.hasOwnProperty('notice')){
+  //             sizes = ''
+  //             for (var size of response.Product_info['sizes']){
+  //               sizes += `<label class="test"><input type="radio" name="size" value="${size}"><span>${size}</span></label><br>`
+  //             }
+  //             colors = ''
+  //             for (var color of response.Product_info['colors']){
+  //               colors += `<label class="test" ><input type="radio" name="color" value="${color}"><span>${color}</span></label><br>`
+  //             }
 
-              if(sizes != ''){
-                sizes = '<span>사이즈 선택<span><br>' + sizes
-              } else if (colors != ''){
-                colors = '<span>색상 선택<span><br>' + sizes
-              }
+  //             if(sizes != ''){
+  //               sizes = '<span>사이즈 선택<span><br>' + sizes
+  //             } else if (colors != ''){
+  //               colors = '<span>색상 선택<span><br>' + sizes
+  //             }
 
-              options = `${sizes}${colors}`
-              p_count = `<p>수량 선택</p><div><button class="p_cnt_btn" id="minus_btn"><i class="fa fa-minus p_minus" aria-hidden=true></i></button><input class="p_cnt_input" min="1" value=1 readonly><button class="p_cnt_btn" id="plus_btn"><i class="fa fa-plus p_plus" aria-hidden=true></i></button></div>`
-              bottext = bottext + '<br><br>' + options + p_count + '<br><button class="info_submit"><span>선택완료</span></button>'
-            } else {
-              const bot_info = `<span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
-              bottext += '<br><br>'
-              bottext += bot_info;
-            }
-          };
+  //             options = `${sizes}${colors}`
+  //             p_count = `<p>수량 선택</p><div><button class="p_cnt_btn" id="minus_btn"><i class="fa fa-minus p_minus" aria-hidden=true></i></button><input class="p_cnt_input" min="1" value=1 readonly><button class="p_cnt_btn" id="plus_btn"><i class="fa fa-plus p_plus" aria-hidden=true></i></button></div>`
+  //             bottext = bottext + '<br><br>' + options + p_count + '<br><button class="info_submit"><span>선택완료</span></button>'
+  //           } else {
+  //             const bot_info = `<span>[상품명]</span> ${response.Product_info['product_name']}<br><span>[상품가격]</span> ${response.Product_info['product_price']}<br><br> <a href="http://127.0.0.1:8000/product/${response.Product_info['product_name']}" target='_blank' class='go_product' >상품 보러가기</a>`;
+  //             bottext += '<br><br>'
+  //             bottext += bot_info;
+  //           }
+  //         };
 
 
-          bottext += "</div></div>"
-          $chatbox.append(bottext).fadeIn(300);
+  //         bottext += "</div></div>"
+  //         $chatbox.append(bottext).fadeIn(300);
 
-          // 스크롤 조정하기
-          $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
-      }
-  });
+  //         // 스크롤 조정하기
+  //         $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
+  //     }
+  // });
 
 
 

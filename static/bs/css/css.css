@@ -141,8 +141,9 @@ table td{
 }
 
 .test input[type="radio"] + span {
-    display: inline-block;
-    padding: 5px 5px;
+    display: block;
+    width: 100% ;
+    padding: 7px 15px;
     border: none;
     border-radius: 5px;
     background-color: white;
@@ -151,9 +152,17 @@ table td{
     margin-bottom: 5px;
 }
 
+.test input[type="radio"] + span:hover {
+    font-weight: bold;
+}
+
 .test input[type="radio"]:checked + span {
     background-color: black;
     color: white;
+}
+
+.choice_title{
+    margin-bottom: 10px;
 }
 
 .info_submit{
@@ -175,7 +184,16 @@ table td{
     padding: 5px;
 }
 
+#minus_btn{
+    border-radius: 5px 0px 0px 5px;
+}
+
+#plus_btn{
+    border-radius: 0px 5px 5px 0px;
+}
+
 .p_cnt_input{
+    border: 5px solid white;
     text-align: center;
 }
 
@@ -455,4 +473,46 @@ header li {
 
 .image_detail{
     width: 564px;
+}
+
+/* loading text */
+.spinner {
+    width: 50px;
+    text-align: center;
+}
+
+.spinner > div {
+    width: 6px;
+    height: 6px;
+    background-color: #888;
+
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0) }
+    40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% { 
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    } 40% { 
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
 }

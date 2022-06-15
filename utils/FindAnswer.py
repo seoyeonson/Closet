@@ -120,7 +120,7 @@ class FindAnswer:
                     self.change_state(11)
                 elif intent_name == '부정':
                     self.change_state(0)
-                    r_answer = '이용해주셔서 감사합니다. 문의사항이  있으시면 언제든 말씀 해주세요.'
+                    r_answer = '이용해주셔서 감사합니다.💖<br> 문의사항이  있으시면 언제든 말씀 해주세요.'
         
         if now_state.state == 9: # 주문취소
             if now_state.flag == False:
@@ -128,7 +128,7 @@ class FindAnswer:
                     self.change_state(12)
                 elif intent_name == '부정':
                     self.change_state(0)
-                    r_answer = '이용해주셔서 감사합니다. 문의사항이  있으시면 언제든 말씀 해주세요.'
+                    r_answer = '이용해주셔서 감사합니다.💖<br> 문의사항이  있으시면 언제든 말씀 해주세요.'
                 
         if now_state.state == 10:
             if now_state.flag == False:
@@ -210,7 +210,7 @@ class FindAnswer:
                         "책/음악/티켓": '12', "뷰티": '13', "스커트": '14', "생활/취미/예술": '15',
                     "양말/레그웨어": '16', "속옷": '17', "원피스": '18', "선글라스/안경테": '19', "반려동물": '20'}
                     try:
-                        r = pd.read_excel(f"C:\TeamProject_\TeamProj2\catagory\category_{temp[temp1]}.xlsx")[:50].T[:50].T
+                        r = pd.read_excel(f"D:/DevRoot/new/TeamProj2/catagory/category_{temp[temp1]}.xlsx")[:50].T[:50].T
                     except:
                         # 잘못된 카테고리가 입력되면
                         ProductName.name = "" # 상품 이름 변수를 null string으로 바꾸고
@@ -235,6 +235,7 @@ class FindAnswer:
                     
                     # answer += f"\n {r.columns[max_rating_index]}"
                     ProductName.name = r.columns[max_rating_index]
+                    answer = '고객님의 취향에 맞춰 골라봤어요. '
         return answer 
     
     def loss(self, prediction, R): # 손실 함수

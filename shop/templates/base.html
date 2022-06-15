@@ -46,6 +46,7 @@
         </nav>
     </header>
     <div id="wrap" class="container">
+        <!-- chatbot -->
         <a>
             <div id="chatbot">
                 <i class="far fa-comment-dots"></i>
@@ -58,14 +59,14 @@
                 <hr>
             </div>
             <div id="chatbox"
-                style="height:84%;margin-top:57px;padding:10px;overflow-y:scroll;overflow-x:hidden;max-height:80vh;">
-                <div class="chatbot_logo logo">CLOSET</div>
-                <div class="chat_intro">
-                    <h2>클로젯에 문의하기</h2>
-                    <span style="color: rgba(0, 0, 0, 0.4);">'취향에 맞는 옷'을 추천해드립니다.</span><br>
-                    <span style="font-size: 15px;"><i class="fas fa-bolt"
-                            style="font-size: 10px; color: rgb(0, 94, 255); margin-bottom: 20px;"></i> 보통 몇 분 내 빠른
-                        답변</span>
+            style="height:84%;margin-top:57px;padding:20px;overflow-y:scroll;overflow-x:hidden;max-height:80vh;">
+            <div class="chatbot_logo logo">CLOSET</div>
+            <div class="chat_intro">
+                <h2>클로젯에 문의하기</h2>
+                <span style="color: rgba(0, 0, 0, 0.4);">'취향에 맞는 옷'을 추천해드립니다.</span><br>
+                <span style="font-size: 15px;"><i class="fas fa-bolt"
+                    style="font-size: 10px; color: rgb(0, 94, 255); margin-bottom: 20px;"></i> 보통 몇 분 내 빠른
+                    답변</span>
                 </div>
                 <!-- <div id="divClock" class="clock"></div> -->
                 <div>
@@ -76,6 +77,13 @@
                         원하시는 문의를 말씀해주세요!
                     </div>
                 </div>
+                <!-- <div class="bottext_div">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                   </div>
+                </div> -->
             </div>
             <div class="chabot_footer">
                 <hr>
@@ -90,6 +98,7 @@
                     </tr>
                 </table>
             </div>
+            <!-- chatbot End -->
         </div>
         {% block contents %}
         {% endblock %}
@@ -134,12 +143,13 @@
             type: "POST",
             data: JSON.stringify(jsonData_info),
             dataType: "JSON", // 응답받을 데이터 타입
-            contentType: "application/json; charset=utf-8",
-
+            contentType: "application/json; charset=utf-8",            
             success: function (response) {
-                alert(response.Answer);
+                $chatbox = $("#chatbox");
+                $chatbox.append("<div><div class='bottext_div'>주문이 완료되었습니다.<br>");
+                // 스크롤 조정하기
+                $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
             }
-
         });
 
     };
