@@ -210,7 +210,7 @@ class FindAnswer:
                         "책/음악/티켓": '12', "뷰티": '13', "스커트": '14', "생활/취미/예술": '15',
                     "양말/레그웨어": '16', "속옷": '17', "원피스": '18', "선글라스/안경테": '19', "반려동물": '20'}
                     try:
-                        r = pd.read_excel(f"D:/DevRoot/new/TeamProj2/catagory/category_{temp[temp1]}.xlsx")[:50].T[:50].T
+                        r = pd.read_excel(f"C:/TeamProject_/TeamProj2/catagory/category_{temp[temp1]}.xlsx")[:50].T[:50].T
                     except:
                         # 잘못된 카테고리가 입력되면
                         ProductName.name = "" # 상품 이름 변수를 null string으로 바꾸고

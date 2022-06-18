@@ -117,6 +117,16 @@
     function send_info() {
         size_info = $("input[name=size]:checked").val()
         color_info = $("input[name=color]:checked").val()
+        // 검증
+        if(!size_info && !color_info){
+            content = order_select(localStorage.getItem('sizes'), localStorage.getItem('colors'))
+
+            $chatbox = $("#chatbox");
+            $chatbox.append(`<div><div class='bottext_div'>옵션이 선택되지 않았습니다.<br>구매하려는 상품의 옵션을 다시 선택해주세요.<br><br>${content}</div></div>`);
+                // 스크롤 조정하기
+            $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
+            return 
+        }
 
         if(size_info){
             size_info = size_info.trim()
@@ -146,7 +156,7 @@
             contentType: "application/json; charset=utf-8",            
             success: function (response) {
                 $chatbox = $("#chatbox");
-                $chatbox.append("<div><div class='bottext_div'>주문이 완료되었습니다.<br>");
+                $chatbox.append("<div><div class='bottext_div'>주문이 완료되었습니다.<br>주문내역은 마이페이지에서 확인 가능합니다.<br><br><a href='http://127.0.0.1:8000/mypage/' target='blank' class='go_product'>확인하러 가기</a></div></div>");
                 // 스크롤 조정하기
                 $chatbox.animate({scrollTop: $chatbox.prop('scrollHeight')});
             }

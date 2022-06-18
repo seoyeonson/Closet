@@ -82,12 +82,12 @@ def service(username, state, info):
     elif state == 11: # 반품신청
         order.order_update(1)
         now_state.state = 0
-        return '반품신청 완료되었습니다.'
+        return '반품신청 완료되었습니다.<br>반품진행 내역은 마이페이지에서 확인 가능합니다.<br><br><a href="http://127.0.0.1:8000/mypage/" target="_blank" class="go_product">확인하러 가기</a>'
 
     elif state == 12: # 주문취소
         order.order_update(0)
         now_state.state = 0
-        return '주문취소 완료되었습니다.'
+        return '주문취소 완료되었습니다.<br>주문취소 내역은 마이페이지에서 확인 가능합니다.<br><br><a href="http://127.0.0.1:8000/mypage/" target="_blank" class="go_product">확인하러 가기</a>'
 
     # 주문옵션 선택
     elif state == 6:
@@ -169,14 +169,14 @@ class Order():
         else:
             order_detail = User_order_detail.objects.get(order_num=order.get('order_num'))
 
-            received_date = f'- 수령일: {order.get("received_date")}<br>' if order.get('received_date') != None else ''
+            received_date = f'- 수령일: {order.get("received_date").strftime("%Y/%m/%d")}<br>' if order.get('received_date') != None else ''
             # received_date = f'<p>수령일: {order.get("received_date")}</p>' if order.get('received_date') != None else ''
 
             data = f'''<br><br>- 주문번호: {order.get('order_num')}<br> 
                         - 주문상품: {order_detail.product_num.product_name}<br> 
                         - 주문수량: {order_detail.product_count}<br> 
                         - 주문금액: {order_detail.product_price}<br> 
-                        - 주문일시: {order.get('order_date')}<br> 
+                        - 주문일시: {order.get('order_date').strftime('%Y/%m/%d %H:%M:%S')}<br> 
                         - 주소: {order.get('adress')}<br> 
                         - 수령인: {order.get('receive_name')}<br> 
                         - 전화번호: {order.get('receive_phone')}<br> 
