@@ -71,6 +71,7 @@ def to_client(conn, addr, params):
             print(db)
             answer_text, answer_image = f.search(intent_name, ner_tags)
             answer = f.tag_to_word(ner_predicts, answer_text)
+            service_result = None
             print(intent_name, ner_tags)
             print(now_state.state)
 

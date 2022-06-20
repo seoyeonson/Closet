@@ -268,7 +268,7 @@ class User_info():
         try:
             cuppon = Cuppon.objects.get(u_id=self.user.u_id)
             percentage = int(cuppon.discount_rate * 100)
-            result = f'<br><{percentage}% 할인 쿠폰<br>수량: {cuppon.cuppon_num}개>'
+            result = f'<br><br><div class="cuppon_info"><span>{percentage}% 할인 쿠폰</span><br>수량: {cuppon.cuppon_num}개</div><br><a class="go_product" href="http://127.0.0.1:8000/mypage/" target="_blank">마이페이지에서 확인하기</a>'
             print('쿠폰: ', percentage, cuppon)
 
         except Exception as ex:
