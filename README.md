@@ -1,39 +1,103 @@
-# TeamProj2
+# 👕 Closet
+<div style="font-weight: 600 font-size: 20px">
+‘CLOSET’은 의류 쇼핑몰의 고객응대 업무를 보완하는 챗봇을 포함한 웹 애플리케이션입니다.</div>
+</div>
+<br>
 
---저장시 부탁드립니다.--
+### 🧣 Member
 
-1. Commit Summay는 반드시 본인이름#날짜/시간 으로 해주세요. (ex 손서연#5.21/14:00) 언제 어떤작업을 했는지 설명하기 쉬워집니다!
+|팀장|팀원|팀원|팀원|팀원|
+| :-: | :-: | :-: | :-: | :-: |
+| <img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/2edf45e3-e32a-459a-a354-4e88cfaac659" width="150"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/733c6a20-e8bd-43e7-9e33-73af618d0e3f" width="150"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/ee87d3c9-070c-485c-b0b0-5bdf4414ebd6" width="150"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/401a85c7-d0eb-459a-9cff-bcf2f5145a01" width="150">|<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/ad3dae7e-afb6-4601-b4cb-79f4bab95077" width="150">|
+|[손서연](https://github.com/seoyeonson)|[이현승](https://github.com/Hyunseung123)|[허소영](https://github.com/SoyoungHeo2)|[정태경](https://github.com/jungtaekyung)|[성한제](https://github.com/Hanjea07)|
+<br>
 
-2. Description에는 최근 본인의 작성내용 -> 파일주소/명 수정내용(주석으로 꼭 표시) 해주세요. 다른사람이 변경내용을 빠르게 찾기 용이해집니다! ex) Test/main.html header 추가
+### 🧢 기획
 
-3. 작업 전 항상 새로운 파일이 있는지 확인해주시고, 작업 후 업로드시에는 카톡방에 업로드 했다고 남겨주세요. 다른 사람이 새로운파일이 있는지 없는지 알기 쉬워집니다!
+#### 🧦 기획 목적 & 기대효과
+<table>
+    <tbody>
+       <tr>
+          <td>의류쇼핑몰의 고객응대 업무를 보완하는 챗봇을 구현하고자 했습니다.</td>
+       </tr>
+      <tr>
+            <td>고객 변심, 사이즈나 색상 착오 등으로 교환과 환불이 빈번히 발생하는 의류 쇼핑몰 특성상 고객응대 챗봇이 유용하게 쓰일 수 있을 것으로 기대합니다.</td>
+      </tr>
+    </tbody>
+</table>
 
-# DB에 더미데이터 저장하는법
+#### 🧦 기능 및 특장점
+- 페이지 기능
+    - 상품 구매
+    - 주문 확인
+    
+- 챗봇 주요 기능
+    - 상품 추천
+    - 할인 & 프로모션 안내
+    - 주문 취소
+    - 반품 신청 접수 및 처리
+    - 상품 주문 진행
+<br>
 
-1. pillow 모듈 설치 (ImageField 사용을 위해 필요)  
-   cmd 관리자 권한으로 실행 > pip intall Pillow  
-2. migration, migrate  
-   터미널로 sqlite3 실행하여 테이블 생성된 것 확인  
-3. 터미널로 sqlite3 에 연결, 외래키 활성화 하기  
-   sqlite3 창에 PRAGMA foreign_keys; >> 결과값으로 0 또는 1 반환 (0:비활성화, 1:활성화)  
-   PRAGMA foreign_keys = 1; 실행 후 직전 코드 다시 실행하여 활성화 되었는지 확인    
-   참조 : https://thinking-jmini.tistory.com/12
-5. 구글드라이브 > dummydata 폴더  
-   DB_상품&카테고리.ipynb 파일 내 코드 순차적으로 모두 실행  
-   ** products.xlsx 파일과, 우리프로젝트의 db.sqlite3 파일을 사용합니다. 본인 컴퓨터의 파일 경로로 꼭 수정해주세요. **  
-6. 구글드라이브 > DML-category_code수정.ipynb 파일 내 코드 실행  
-   ** 마찬가지로 파일경로를 수정하여 실행해주세요. **  
-   
-# 실행전 체크사항
+### 🛠 개발 환경 및 프레임워크
+#### ✔︎ Backend
+Python, Django, SQLite, flask, Numpy, pandas, pillow, BeautifulSoup, Django-matfilters, Tensorflow, Matplotlib, KoNLPy(Komoran), pickle, jpyp
 
-1. django-mathfilters 설치
-   ```pip install django-mathfilters```
-   숫자 천단위마다 (,) 콤마 추가하는 template tag
+#### ✔︎ Frontend
+HTML5, CSS3, JavaScript, jQuery, Ajax, BootStrap4.0
 
-2. ~/model/utils/FindAnswer
-   tag_to_word() 안 디렉토리 경로 변경(74번째 줄)
-   ```~/model/category/```
+#### ✔︎ Tool
+Jupyter notebook, Visual Studio Code, Figma, GitHub
 
-# flask-cors 에러날 경우
+<br>
 
-1. ```pip install -U flask-cors```
+### 🗣️ 문장의도분류표
+<div><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/2d52660a-086d-4023-8527-2008735b3f32" style="width:80%;"/></div>
+<br>
+
+### ♾️ 대화흐픔도
+<table style="text-align: center">
+  <tr>
+      <td><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/067a2760-3b41-4d9a-a788-29993a0128c3"/></td>
+      <td><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/49f7cce0-5eab-414f-bf09-aa83ddc6382e"/></td>
+     <td><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/ac7fa5d6-edc3-41e9-97ed-c375a72ec62f"/></td>
+  </tr>
+</table>
+<br>
+
+### ⚙️ 서비스 연동
+<div><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/7bbf53c7-122f-4816-b4d3-a2a8ea073d10" style="width:80%;"/></div>
+<br>
+
+### 🖥️ 페이지 이미지 
+<table style="text-align: center">
+  <tr>
+      <td><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/b92d537d-6794-4608-84e2-11b59f480e3f"/></td>
+      <td><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/1e30819b-7704-404d-8d9d-a3994de279c3"/></td>
+  </tr>
+  <tr>
+      <td><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/a1da1a18-efbe-4923-9cae-59993acbfe5e"/></td>
+      <td><img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/c1bd1199-4707-4aa1-ae4a-eba2fb8a0e4c"/></td>
+  </tr>
+</table>
+<br>
+
+<table>
+    <tr></tr>
+    <tr>
+        <td style="padding:15px;">
+            <p></p>
+            <div><b>💡 인사이트</b></div>
+            <div style="width:100%; background-color:grey;">
+               외부 챗봇 API 를 연결하여 가져온 데이터를 다루고 모듈화하는 기회를 가지면서 데이터 처리에 대한 이해도를 높일 수 있었습니다. 
+               AI 모델에 대한 이해에 더불어 데이터 전처리, 정규화, 모델 평가 등에서 구조적인 이해를 할 수 있었습니다. 
+                <p></p>
+            </div>
+        </td>
+    </tr>
+</table>
+<br>
+<br>
+
+[사용 이미지 출처]
+출처 <a href="https://kr.freepik.com/free-vector/hand-drawn-robot-character-collection_1511351.htm#query=%EB%A1%9C%EB%B4%87%20%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8&position=37&from_view=search&track=ais&uuid=55d9178f-0a93-401e-9701-431e3a863ef2">Freepik</a>
