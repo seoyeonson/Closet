@@ -8,7 +8,7 @@
 
 |팀장|팀원|팀원|팀원|팀원|
 | :-: | :-: | :-: | :-: | :-: |
-| <img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/2edf45e3-e32a-459a-a354-4e88cfaac659" width="150"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/733c6a20-e8bd-43e7-9e33-73af618d0e3f" width="150"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/ee87d3c9-070c-485c-b0b0-5bdf4414ebd6" width="150"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/401a85c7-d0eb-459a-9cff-bcf2f5145a01" width="150">|<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/ad3dae7e-afb6-4601-b4cb-79f4bab95077" width="150">|
+| <img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/2edf45e3-e32a-459a-a354-4e88cfaac659" width="100"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/733c6a20-e8bd-43e7-9e33-73af618d0e3f" width="100"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/ee87d3c9-070c-485c-b0b0-5bdf4414ebd6" width="100"> |<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/401a85c7-d0eb-459a-9cff-bcf2f5145a01" width="100">|<img src="https://github.com/seoyeonson/seoyeonson/assets/93702730/ad3dae7e-afb6-4601-b4cb-79f4bab95077" width="100">|
 |[손서연](https://github.com/seoyeonson)|[이현승](https://github.com/Hyunseung123)|[허소영](https://github.com/SoyoungHeo2)|[정태경](https://github.com/jungtaekyung)|[성한제](https://github.com/Hanjea07)|
 <br>
 
